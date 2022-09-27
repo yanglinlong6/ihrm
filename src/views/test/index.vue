@@ -6,8 +6,8 @@
     form item prop 属性绑定字段名字符串
      -->
     <el-form :model="formData" :rules="rules">
-      <el-form-item label="用户名" prop="username">
-        <el-input v-model="formData.username" />
+      <el-form-item label="手机号" prop="mobile">
+        <el-input v-model="formData.mobile" />
       </el-form-item>
       <el-form-item label="密码" prop="password">
         <el-input v-model="formData.password" />
@@ -24,16 +24,18 @@ export default {
   data() {
     return {
       formData: {
-        username: '',
+        mobile: '',
         password: ''
       },
       // 规则本身是个对象, 里面的属性跟数据同名
       rules: {
-        username: [
-          { required: true, message: '该项不能为空', trigger: 'blur' }
+        mobile: [
+          { required: true, message: '该项不能为空', trigger: 'blur' },
+          { pattern: /^1[3-9][0-9]{9}$/, message: '请输入正确手机号', trigger: 'blur' }
         ],
         password: [
-          { required: true, message: '该项不能为空', trigger: 'blur' }
+          { required: true, message: '该项不能为空', trigger: 'blur' },
+          { min: 6, max: 12, message: '密码在6-12位之间', trigger: 'blur' }
         ]
       }
     }

@@ -18,10 +18,12 @@ const actions = {
   async login({ commit }, data) {
     // 发送请求,
     const res = await login(data)
+    // 由于拦截器返回了 res.data.data
+    // 现在这里接收到的就是 最终结果, 无需再用点语法处理
     // 拿到token
-    console.log(res.data.data)
+    console.log(res)
     // 通过 mutations 存入 state
-    commit('setToken', res.data.data)
+    commit('setToken', res)
   }
 }
 

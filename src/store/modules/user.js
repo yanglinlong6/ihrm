@@ -1,12 +1,16 @@
 import { login } from '@/api/user'
+import { getToken, setToken } from '@/utils/auth'
 // 存放状态数据
 const state = {
-  token: ''
+  // token: localStorage.getItem('token') || ''
+  token: getToken() || ''
 }
 // 修改 state
 const mutations = {
   setToken(state, data) {
     state.token = data
+    // localStorage.setItem('token', data)
+    setToken(data)
   }
 }
 // 如果有异步操作放在actions

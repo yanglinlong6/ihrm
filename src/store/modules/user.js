@@ -11,13 +11,13 @@ const mutations = {
 }
 // 如果有异步操作放在actions
 const actions = {
-  async login(store, data) {
+  async login({ commit }, data) {
     // 发送请求,
     const res = await login(data)
     // 拿到token
     console.log(res.data.data)
     // 通过 mutations 存入 state
-    store.commit('setToken', res.data.data)
+    commit('setToken', res.data.data)
   }
 }
 

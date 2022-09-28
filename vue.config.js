@@ -35,6 +35,15 @@ module.exports = {
     overlay: {
       warnings: false,
       errors: true
+    },
+    // 这里是开发服务器, npm run dev 的配置
+    // 之前已经设定 port 端口为 8888
+    // 现在还可以增加一个配置设定转发代理条件
+    proxy: {
+      '/api': {
+        target: 'http://ihrm-java.itheima.net/',
+        changeOrigin: true
+      }
     }
   },
   configureWebpack: {

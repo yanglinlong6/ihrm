@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import { Message } from 'element-ui'
 // create an axios instance
 // 这里没有直接对 axios 原包进行改造, 而是创建一个实例
 // 在实例的基础上进行基地址/拦截器配置
@@ -33,11 +33,20 @@ service.interceptors.response.use(res => {
     return res.data.data
   } else {
     // 网络请求成功, 但是数据错误,出错提示
+    // 弹出提示
+    Message.error(res.data.message)
     console.log('数据错误, 应该有提示')
+    // 应该挡住当前正在执行的异步请求
+    // 正在执行的请求, 都是一个 promise 被 .then 或者 async / await 调用
+    // 如果想要在中间突然截断, 可以用原生 Promise 对象自带 reject 来处理
+    // 里面还可以带一个错误对象做参数, 方便 控制台追踪错误信息
+    return Promise.reject(new Error(res.data.message))
   }
 }, err => {
   // 这里才是处理状态码200以外的其他错误
   console.log('硬性网络错误', err)
+  Message.error('系统错误')
+  return Promise.reject(new Error('系统错误'))
 })
 
 export default service

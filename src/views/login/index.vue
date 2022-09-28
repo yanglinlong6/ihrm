@@ -102,8 +102,15 @@ export default {
     async handleLogin() {
       // const res = await login(this.loginForm)
       // console.log(res)
-      console.log('利用 vuex 封装登录逻辑');
-      this.$store.dispatch('user/login', this.loginForm)
+      // 校验表单
+      await this.$refs.loginForm.validate()
+      // 调用登录
+      await this.$store.dispatch('user/login', this.loginForm)
+      // 提示用户
+      this.$message.success('登录成功')
+      // 跳转页面
+      this.$router.push('/')
+      // console.log('利用 vuex 封装登录逻辑');
       // this.$refs.loginForm.validate(valid => {
       //   if (valid) {
       //     this.loading = true

@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { login } from '@/api/user'
+// import { login } from '@/api/user'
 export default {
   name: 'Login',
   data() {
@@ -100,8 +100,10 @@ export default {
       })
     },
     async handleLogin() {
-      const res = await login(this.loginForm)
-      console.log(res)
+      // const res = await login(this.loginForm)
+      // console.log(res)
+      console.log('利用 vuex 封装登录逻辑');
+      this.$store.dispatch('user/login', this.loginForm)
       // this.$refs.loginForm.validate(valid => {
       //   if (valid) {
       //     this.loading = true

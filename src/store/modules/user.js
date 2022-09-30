@@ -29,8 +29,12 @@ const actions = {
     // 通过 mutations 存入 state
     commit('setToken', res)
   },
+  // async getUserInfo(context) {
   async getUserInfo({ commit }) {
     const res = await getUserInfo()
+
+    // const {commit} = context
+    // 这种解构可以直接放到形参位置
     commit('setUserInfo', res)
   }
 }

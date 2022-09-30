@@ -1,4 +1,4 @@
-import { login, getUserInfo } from '@/api/user'
+import { login, getUserInfo, getUserDetail } from '@/api/user'
 import { getToken, setToken } from '@/utils/auth'
 // 存放状态数据
 const state = {
@@ -32,10 +32,16 @@ const actions = {
   // async getUserInfo(context) {
   async getUserInfo({ commit }) {
     const res = await getUserInfo()
-
+    // 这里是获取用户数据的 actions
+    // 通过观察, 发现获取到的数据不完整, 缺少了头像
+    // 所以多发一个请求补全数据
+    const detail = await getUserDetail(res.userId)
     // const {commit} = context
     // 这种解构可以直接放到形参位置
-    commit('setUserInfo', res)
+    commit('setUserInfo', {
+      ...res,
+      ...detail
+    })
   }
 }
 

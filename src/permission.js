@@ -13,7 +13,12 @@ router.beforeEach((to, from, next) => {
   }
 
   // 2. token && !login => 放行
+  // 这是已经登录, 正常进入页面的逻辑
   if (token && url !== '/login') {
+    // 进入任何页面之前, 判断是否已经有用户数据, 如果没有就去获取
+    if (!store.getters.name) {
+      store.dispatch('user/getUserInfo')
+    }
     next()
   }
 

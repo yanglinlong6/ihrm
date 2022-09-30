@@ -1,9 +1,10 @@
-import { login } from '@/api/user'
+import { login, getUserInfo } from '@/api/user'
 import { getToken, setToken } from '@/utils/auth'
 // 存放状态数据
 const state = {
   // token: localStorage.getItem('token') || ''
-  token: getToken() || ''
+  token: getToken() || '',
+  userInfo: {}
 }
 // 修改 state
 const mutations = {
@@ -11,6 +12,9 @@ const mutations = {
     state.token = data
     // localStorage.setItem('token', data)
     setToken(data)
+  },
+  setUserInfo(state, data) {
+    state.userInfo = data
   }
 }
 // 如果有异步操作放在actions
@@ -24,6 +28,10 @@ const actions = {
     console.log(res)
     // 通过 mutations 存入 state
     commit('setToken', res)
+  },
+  async getUserInfo({ commit }) {
+    const res = await getUserInfo()
+    commit('setUserInfo', res)
   }
 }
 

@@ -15,7 +15,7 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar" class="user-avatar">
+          <img :src="avatar" class="user-avatar" @error="fiximg">
           <span class="name">{{ name }}</span>
           <i class="el-icon-caret-bottom" style="color: #fff" />
         </div>
@@ -39,6 +39,7 @@
 import { mapGetters } from 'vuex'
 // import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
+import head from '@/assets/common/head.jpg'
 
 export default {
   components: {
@@ -55,6 +56,12 @@ export default {
     async logout() {
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    },
+    fiximg(e) {
+      // 所有的时间, 默认都可以接受到一个事件对象
+      console.log(e)
+      // e.target.src = 'https://ts1.cn.mm.bing.net/th/id/R-C.cabcfca68022e4b249e29a92bd9654ab?rik=jwCLB%2fVm3i5miQ&riu=http%3a%2f%2fimg.ewebweb.com%2fuploads%2f20200225%2f14%2f1582610405-zMSjcLXrFZ.jpeg&ehk=OaCQAZ3ziI8jbU91qP%2bxga00QhzrQ6WHroEnltMa91E%3d&risl=&pid=ImgRaw&r=0'
+      e.target.src = head
     }
   }
 }

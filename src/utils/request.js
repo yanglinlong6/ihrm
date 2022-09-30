@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
+import store from '@/store'
 // create an axios instance
 // 这里没有直接对 axios 原包进行改造, 而是创建一个实例
 // 在实例的基础上进行基地址/拦截器配置
@@ -20,6 +21,16 @@ const service = axios.create({
 })
 
 // 请求拦截器
+// 登录以后, 发现基本所有后台接口都需要token请求头
+// 所以在请求拦截器进行统一的注入
+service.interceptors.request.use(config => {
+  if (store.state.user.token) {
+    // Bearer 是 token 的标准前缀, 注意跟token本体之间有一个空格
+    config.headers.Authorization = `Bearer ${store.state.user.token}`
+  }
+
+  return config
+})
 
 // 响应拦截器 每次请求的响应都会经过这里的回调函数
 // 最基本的原则是无论如何都得返回

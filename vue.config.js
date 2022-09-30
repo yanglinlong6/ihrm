@@ -41,7 +41,9 @@ module.exports = {
     // 现在还可以增加一个配置设定转发代理条件
     proxy: {
       '/api': {
-        target: 'http://ihrm-java.itheima.net/',
+        // target: 'http://ihrm-java.itheima.net/',
+        // target: 'http://ihrm.itheima.net/',
+        target: 'http://114.132.60.122:3000/',
         changeOrigin: true
       }
     }

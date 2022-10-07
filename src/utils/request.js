@@ -92,7 +92,7 @@ service.interceptors.response.use(res => {
     router.push('/login')
     Message.error('登录超时')
   } else {
-    Message.error('系统错误')
+    Message.error(err.message || '系统错误')
   }
 
   return Promise.reject(new Error('系统错误'))

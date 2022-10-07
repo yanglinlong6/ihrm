@@ -35,6 +35,10 @@ const actions = {
     console.log(res)
     // 通过 mutations 存入 state
     commit('setToken', res)
+
+    // 这里登录成功的 actions
+    // 我们想要前端主动控制token超时, 需要记录登录时间
+    localStorage.setItem('time', Date.now())
   },
   // async getUserInfo(context) {
   async getUserInfo({ commit }) {

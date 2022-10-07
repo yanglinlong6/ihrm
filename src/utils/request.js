@@ -26,8 +26,26 @@ const service = axios.create({
 // 所以在请求拦截器进行统一的注入
 service.interceptors.request.use(config => {
   if (store.state.user.token) {
-    // Bearer 是 token 的标准前缀, 注意跟token本体之间有一个空格
-    config.headers.Authorization = `Bearer ${store.state.user.token}`
+    // 不能直接放入 token 了
+    // 有可能失效, 主动介入, 需要判断现在发请求的时间跟登录时间相差多少
+    const time = localStorage.getItem('time')
+    const now = Date.now()
+    // 这里是定义超时时间, 可以产品经理确定直接写死
+    // 有时候面试会问, 不是后端发过来的吗?
+    // 也有可能, 这个超时时间是后端数据库储存, 我们访问 api 获取
+    const maxTime = 5000
+
+    if (now - time < maxTime) {
+      // Bearer 是 token 的标准前缀, 注意跟token本体之间有一个空格
+      config.headers.Authorization = `Bearer ${store.state.user.token}`
+    } else {
+      // 超时的主动介入
+      // 登出, 跳到登录页
+      store.commit('user/clearUserInfo')
+      router.push('/login')
+      // 拒绝掉当前请求
+      return Promise.reject(new Error('token超时(主动介入)'))
+    }
   }
 
   return config

@@ -2,7 +2,7 @@
 import router from '@/router'
 import store from '@/store'
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async(to, from, next) => {
   const token = store.state.user.token
   const url = to.path
   const list = ['/login', '/404', '/test']
@@ -17,7 +17,7 @@ router.beforeEach((to, from, next) => {
   if (token && url !== '/login') {
     // 进入任何页面之前, 判断是否已经有用户数据, 如果没有就去获取
     if (!store.getters.name) {
-      store.dispatch('user/getUserInfo')
+      await store.dispatch('user/getUserInfo')
     }
     next()
   }

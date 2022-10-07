@@ -13,7 +13,7 @@ export default {
       // 嵌套的子页面组件
       component: () => import('@/views/setting'),
       // meta 配置菜单中的显示(花裤衩独有的封装)
-      meta: { title: '设置', icon: 'table' }
+      meta: { title: '设置', icon: 'setting' }
     }
   ]
 }

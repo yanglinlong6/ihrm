@@ -15,6 +15,8 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+import head from '@/assets/common/head.jpg'
+
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
@@ -32,10 +34,10 @@ Vue.directive('fiximg', {
     // 只要用这个指令, 就能在元素插入到页面中时进行控制
     // 这里可以监听dom的错误事件, 然后替换 src
     el.addEventListener('error', () => {
-      el.src = 'https://ts1.cn.mm.bing.net/th/id/R-C.cabcfca68022e4b249e29a92bd9654ab?rik=jwCLB%2fVm3i5miQ&riu=http%3a%2f%2fimg.ewebweb.com%2fuploads%2f20200225%2f14%2f1582610405-zMSjcLXrFZ.jpeg&ehk=OaCQAZ3ziI8jbU91qP%2bxga00QhzrQ6WHroEnltMa91E%3d&risl=&pid=ImgRaw&r=0'
+      el.src = head
     })
     // 除了出错, 还可以处理数据为空的状态
-    el.src = el.src || 'https://ts1.cn.mm.bing.net/th/id/R-C.cabcfca68022e4b249e29a92bd9654ab?rik=jwCLB%2fVm3i5miQ&riu=http%3a%2f%2fimg.ewebweb.com%2fuploads%2f20200225%2f14%2f1582610405-zMSjcLXrFZ.jpeg&ehk=OaCQAZ3ziI8jbU91qP%2bxga00QhzrQ6WHroEnltMa91E%3d&risl=&pid=ImgRaw&r=0'
+    el.src = el.src || head
   }
 })
 

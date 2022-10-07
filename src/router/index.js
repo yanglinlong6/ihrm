@@ -6,6 +6,9 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 
+// 引入各个路由模块
+import setting from './modules/setting'
+
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -61,23 +64,7 @@ export const constantRoutes = [
     }]
   },
 
-  {
-    // 基本路径
-    path: '/setting',
-    // 默认显示全局相同布局组件
-    component: Layout,
-    children: [
-      // 布局组件内部嵌套的主要内容
-      {
-        // 如果不想继续拼接可以不加, 为空的情况下, 直接默认显示在嵌套内
-        path: '',
-        // 嵌套的子页面组件
-        component: () => import('@/views/setting'),
-        // meta 配置菜单中的显示(花裤衩独有的封装)
-        meta: { title: '公司设置', icon: 'table' }
-      }
-    ]
-  },
+  setting,
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

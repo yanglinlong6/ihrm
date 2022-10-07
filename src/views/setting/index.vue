@@ -1,5 +1,5 @@
 <template>
-  <div>公司设置页面</div>
+  <div>测试页面</div>
 </template>
 
 <script>

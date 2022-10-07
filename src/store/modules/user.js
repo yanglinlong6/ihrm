@@ -2,7 +2,7 @@ import { login, getUserInfo, getUserDetail } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 // 存放状态数据
 const state = {
-  // token: localStorage.getItem('token') || ''
+  // token: localStorage.getItem('token') || '',
   token: getToken() || '',
   userInfo: {}
 }
@@ -20,6 +20,7 @@ const mutations = {
     state.token = ''
     state.userInfo = {}
     // 脸上 cookie 的数据一并处理, 照顾刷新的问题
+    // localStorage.removeItem('token')
     removeToken()
   }
 }

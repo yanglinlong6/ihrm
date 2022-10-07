@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import store from '@/store'
+import router from '@/router'
 // create an axios instance
 // 这里没有直接对 axios 原包进行改造, 而是创建一个实例
 // 在实例的基础上进行基地址/拦截器配置
@@ -55,8 +56,27 @@ service.interceptors.response.use(res => {
   }
 }, err => {
   // 这里才是处理状态码200以外的其他错误
+  // 这里是所有状态吗不为 200 的响应错误拦截器
+  // 可能性很多, 比如token 超时, url 配置错误等等
+  // 如果要在这单独处理token 失效,最起码, 要辨认出什么情况是 token 失效
+  // 后端跟我们约定, 凡是token 错误都会有 code===10002
   console.log('硬性网络错误', err)
-  Message.error('系统错误')
+  console.dir(err)
+
+  if (err.response && err.response.data.code === 10002) {
+    // 这里的报错可能性很多, 不一定每个 err 都有 response
+    // 可以保险一点, 确认有 response 再做判断
+
+    // 这个代码是 token 超时
+    // 调用 mutations 清理数据
+    // 跳转页面即可
+    store.commit('user/clearUserInfo')
+    router.push('/login')
+    Message.error('登录超时')
+  } else {
+    Message.error('系统错误')
+  }
+
   return Promise.reject(new Error('系统错误'))
 })
 

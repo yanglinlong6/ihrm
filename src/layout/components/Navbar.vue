@@ -53,8 +53,13 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      // 只是跳回登录页是没用的, 需要先清理用户数据
+      this.$store.commit('user/clearUserInfo')
+      console.log('退出')
+      this.$router.push('/login')
+      this.$message.success('登出成功')
+      // await this.$store.dispatch('user/logout')
+      // this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
   }
 }

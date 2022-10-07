@@ -1,5 +1,5 @@
 import { login, getUserInfo, getUserDetail } from '@/api/user'
-import { getToken, setToken } from '@/utils/auth'
+import { getToken, setToken, removeToken } from '@/utils/auth'
 // 存放状态数据
 const state = {
   // token: localStorage.getItem('token') || ''
@@ -15,6 +15,12 @@ const mutations = {
   },
   setUserInfo(state, data) {
     state.userInfo = data
+  },
+  clearUserInfo(state) {
+    state.token = ''
+    state.userInfo = {}
+    // 脸上 cookie 的数据一并处理, 照顾刷新的问题
+    removeToken()
   }
 }
 // 如果有异步操作放在actions

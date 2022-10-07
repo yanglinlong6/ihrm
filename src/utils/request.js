@@ -33,7 +33,7 @@ service.interceptors.request.use(config => {
     // 这里是定义超时时间, 可以产品经理确定直接写死
     // 有时候面试会问, 不是后端发过来的吗?
     // 也有可能, 这个超时时间是后端数据库储存, 我们访问 api 获取
-    const maxTime = 5000
+    const maxTime = 1000 * 60 * 60 * 2
 
     if (now - time < maxTime) {
       // Bearer 是 token 的标准前缀, 注意跟token本体之间有一个空格

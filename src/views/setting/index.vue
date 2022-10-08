@@ -51,8 +51,19 @@
 </template>
 
 <script>
+import { getCompanyInfo } from '@/api/setting'
 export default {
-
+  data() {
+    return {
+      companyInfo: {}
+    }
+  },
+  // 进入页面需要获取数据进行渲染
+  async created() {
+    // 获取公司信息放入data
+    console.log('vuex数据', this.$store.state)
+    this.companyInfo = await getCompanyInfo(this.$store.state.user.userInfo.companyId)
+  }
 }
 </script>
 

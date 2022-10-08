@@ -58,7 +58,18 @@
     </el-card>
     <!-- 弹窗 -->
     <el-dialog :visible="isShowDialog" title="新增角色">
-      这里是内容
+      <el-form label-width="80px">
+        <el-form-item label="角色名称">
+          <el-input v-model="formData.name" />
+        </el-form-item>
+        <el-form-item label="角色描述">
+          <el-input v-model="formData.description" />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button size="small" type="primary" @click="btnOK">确定</el-button>
+        <el-button size="small" @click="btnCancel">取消</el-button>
+      </template>
     </el-dialog>
   </div>
 </template>
@@ -80,7 +91,12 @@ export default {
       // 角色列表总条数
       total: 0,
       // 控制弹窗
-      isShowDialog: false
+      isShowDialog: false,
+      // 定义表单数据:
+      formData: {
+        name: '',
+        description: ''
+      }
     }
   },
   // 进入页面需要获取数据进行渲染
@@ -113,6 +129,12 @@ export default {
       this.pageConfig.page = page
       // 获取角色列表
       this.getList()
+    },
+    btnOK() {
+      this.isShowDialog = false
+    },
+    btnCancel() {
+      this.isShowDialog = false
     }
   }
 }

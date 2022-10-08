@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import { getCompanyInfo, getRoleList, addRole } from '@/api/setting'
+import { getCompanyInfo, getRoleList, addRole, delRole } from '@/api/setting'
 export default {
   data() {
     return {
@@ -180,9 +180,15 @@ export default {
       // 关闭弹窗
       this.isShowDialog = false
     },
-    delRole(id) {
+    async delRole(id) {
       console.log('删除按钮的点击事件, 利用作用域插槽')
       console.log(id)
+      // 发送请求
+      await delRole(id)
+      // 提示用户
+      this.$message.success('删除成功')
+      // 更新页面
+      this.getList()
     }
   }
 }

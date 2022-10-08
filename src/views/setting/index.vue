@@ -9,7 +9,7 @@
           开闭标签插槽放入对应点击时显示东西即可 -->
           <!-- 添加按钮 -->
           <el-row style="margin-bottom: 20px;" type="flex">
-            <el-button size="small" type="primary">添加角色</el-button>
+            <el-button size="small" type="primary" @click="isShowDialog = true">添加角色</el-button>
           </el-row>
           <!-- 表格 -->
           <el-table :data="list" border>
@@ -56,6 +56,10 @@
         </el-tab-pane>
       </el-tabs>
     </el-card>
+    <!-- 弹窗 -->
+    <el-dialog :visible="isShowDialog" title="新增角色">
+      这里是内容
+    </el-dialog>
   </div>
 </template>
 
@@ -74,7 +78,9 @@ export default {
       // 角色列表
       list: [],
       // 角色列表总条数
-      total: 0
+      total: 0,
+      // 控制弹窗
+      isShowDialog: false
     }
   },
   // 进入页面需要获取数据进行渲染

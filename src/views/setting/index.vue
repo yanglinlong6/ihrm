@@ -21,7 +21,14 @@
           </el-table>
           <!-- 分页/翻页器 -->
           <el-row type="flex" justify="center" style="margin-top: 20px;">
-            <el-pagination />
+            <!--
+              分页组件 total 指定总条数
+              page-size 指定每页长度, 自动得出页码
+             -->
+            <el-pagination
+              :total="total"
+              :page-size="pageConfig.pagesize"
+            />
           </el-row>
         </el-tab-pane>
 
@@ -61,7 +68,8 @@ export default {
         pagesize: 2
       },
       companyInfo: {},
-      list: []
+      list: [],
+      total: 0
     }
   },
   // 进入页面需要获取数据进行渲染
@@ -75,8 +83,9 @@ export default {
     this.companyInfo = await getCompanyInfo(companyId)
 
     // 获取角色列表
-    const { rows } = await getRoleList(this.pageConfig)
+    const { rows, total } = await getRoleList(this.pageConfig)
     this.list = rows
+    this.total = total
   }
 }
 </script>

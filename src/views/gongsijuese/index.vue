@@ -7,7 +7,10 @@
         <el-tab-pane label="角色管理">
           <!-- 标签的具体使用, label  指定按钮内容,
           开闭标签插槽放入对应点击时显示东西即可 -->
-
+          <!-- 添加按钮 -->
+          <el-row style="margin-bottom: 20px;" type="flex">
+            <el-button size="small" type="primary">添加角色</el-button>
+          </el-row>
           <!-- 表格 -->
           <el-table border>
             <!-- table-column 是表格列, label 可以定义表头 -->
@@ -16,27 +19,29 @@
             <el-table-column label="操作" />
           </el-table>
           <!-- 分页/翻页器 -->
-          <el-pagination />
+          <el-row type="flex" justify="center" style="margin-top: 20px;">
+            <el-pagination />
+          </el-row>
         </el-tab-pane>
 
         <el-tab-pane label="公司信息">
           <!-- 表单 -->
-          <el-form>
+          <el-form style="width: 600px;" label-width="80px">
             <el-form-item label="企业名称">
               <!-- 表单项以 label 确定名称 -->
-              <el-input />
+              <el-input disabled />
             </el-form-item>
             <el-form-item label="公司地址">
-              <el-input />
+              <el-input disabled />
             </el-form-item>
             <el-form-item label="公司电话">
-              <el-input />
+              <el-input disabled />
             </el-form-item>
             <el-form-item label="邮箱">
-              <el-input />
+              <el-input disabled />
             </el-form-item>
             <el-form-item label="备注">
-              <el-input />
+              <el-input disabled />
             </el-form-item>
           </el-form>
         </el-tab-pane>

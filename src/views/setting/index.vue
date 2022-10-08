@@ -57,7 +57,9 @@
       </el-tabs>
     </el-card>
     <!-- 弹窗 -->
-    <el-dialog :visible="isShowDialog" title="新增角色">
+    <!-- 为了处理右上角的x,还有确定按钮添加成功后关闭弹窗的数据清理
+    还需要将 btnCancel 这个清理数据的逻辑, 绑定到 dialog close 事件当中 -->
+    <el-dialog :visible="isShowDialog" title="新增角色" @close="btnCancel">
       <!-- 表单校验三个要素 el-form 绑定 model rules , el-form-item 绑定 prop -->
       <el-form ref="addForm" :model="formData" :rules="rules" label-width="80px">
         <el-form-item label="角色名称" prop="name">
@@ -142,6 +144,7 @@ export default {
       this.getList()
     },
     async btnOK() {
+      console.log('确定函数')
       // 当我点击确定的时候, 最直接一定要做的就是发请求
       // 除此以外, 还有一些可以进行体验上的优化
       // 1.校验表单
@@ -156,6 +159,10 @@ export default {
       this.isShowDialog = false
     },
     btnCancel() {
+      console.log('取消函数')
+      // 清理数据
+      this.$refs.addForm.resetFields()
+      // 关闭弹窗
       this.isShowDialog = false
     }
   }

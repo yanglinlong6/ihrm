@@ -13,7 +13,7 @@ import employeesRouter from './modules/employees'
 import permissionRouter from './modules/permission'
 import attendancesRouter from './modules/attendances'
 import salarysRouter from './modules/salarys'
-import gongsijueseRouter from './modules/gongsijuese'
+import settingRouter from './modules/setting'
 import socialRouter from './modules/social'
 
 /**
@@ -77,7 +77,7 @@ export const constantRoutes = [
   permissionRouter,
   attendancesRouter,
   salarysRouter,
-  gongsijueseRouter,
+  settingRouter,
   socialRouter,
 
   // 404 page must be placed at the end !!!

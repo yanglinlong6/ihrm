@@ -17,7 +17,18 @@
             <!-- prop指定当前列的字段名 -->
             <el-table-column label="角色名" prop="name" />
             <el-table-column label="描述" prop="description" />
-            <el-table-column label="操作" />
+            <!-- 除了用 prop 指定渲染的内容外 还能用插槽插入内容 -->
+            <el-table-column label="操作">
+              <template slot-scope="scope">
+                <!-- {{ scope.row }} -->
+                <!-- 这里是自定义列模板, 每一行都会显示着三个按钮
+                但是怎么获取到当前行数据, 根据组件库文档, 可以通过接收 scope.row 获取
+                其中 scope 可以自己起名, 但是里面自带的 row 是组件库定义的, 其实就是每行数据自己的对象-->
+                <el-button size="mini" type="primary">分配权限</el-button>
+                <el-button size="mini" type="warning">编辑</el-button>
+                <el-button size="mini" type="danger" @click="delRole(scope.row.id)">删除</el-button>
+              </template>
+            </el-table-column>
           </el-table>
           <!-- 分页/翻页器 -->
           <el-row type="flex" justify="center" style="margin-top: 20px;">
@@ -165,6 +176,10 @@ export default {
       this.$refs.addForm.resetFields()
       // 关闭弹窗
       this.isShowDialog = false
+    },
+    delRole(id) {
+      console.log('删除按钮的点击事件, 利用作用域插槽')
+      console.log(id)
     }
   }
 }

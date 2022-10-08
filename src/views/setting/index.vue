@@ -58,11 +58,12 @@
     </el-card>
     <!-- 弹窗 -->
     <el-dialog :visible="isShowDialog" title="新增角色">
-      <el-form label-width="80px">
-        <el-form-item label="角色名称">
+      <!-- 表单校验三个要素 el-form 绑定 model rules , el-form-item 绑定 prop -->
+      <el-form :model="formData" :rules="rules" label-width="80px">
+        <el-form-item label="角色名称" prop="name">
           <el-input v-model="formData.name" />
         </el-form-item>
-        <el-form-item label="角色描述">
+        <el-form-item label="角色描述" prop="description">
           <el-input v-model="formData.description" />
         </el-form-item>
       </el-form>
@@ -96,6 +97,16 @@ export default {
       formData: {
         name: '',
         description: ''
+      },
+      rules: {
+        name: [
+          { required: true, message: '该项不能为空', trigger: 'blur' },
+          { min: 2, max: 10, message: '角色名在 2-10 位之间', trigger: 'blur' }
+        ],
+        description: [
+          { required: true, message: '该项不能为空', trigger: 'blur' },
+          { max: 20, message: '描述在20字内', trigger: 'blur' }
+        ]
       }
     }
   },

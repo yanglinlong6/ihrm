@@ -28,6 +28,7 @@
             <el-pagination
               :total="total"
               :page-size="pageConfig.pagesize"
+              @current-change="currentChange"
             />
           </el-row>
         </el-tab-pane>
@@ -86,6 +87,18 @@ export default {
     const { rows, total } = await getRoleList(this.pageConfig)
     this.list = rows
     this.total = total
+  },
+  methods: {
+    async currentChange(page) {
+      console.log(page)
+      // 每当触发这个改变页码函数, 都能得到用户最新点击的值
+      // 要把这个值设置到页面配置中, 重新获取数据渲染页面
+      this.pageConfig.page = page
+      // 获取角色列表
+      const { rows, total } = await getRoleList(this.pageConfig)
+      this.list = rows
+      this.total = total
+    }
   }
 }
 </script>

@@ -64,40 +64,49 @@ import { getCompanyInfo, getRoleList } from '@/api/setting'
 export default {
   data() {
     return {
+      // 分页配置
       pageConfig: {
         page: 1,
         pagesize: 2
       },
+      // 公司信息
       companyInfo: {},
+      // 角色列表
       list: [],
+      // 角色列表总条数
       total: 0
     }
   },
   // 进入页面需要获取数据进行渲染
-  async created() {
-    // 获取公司信息放入data
-    console.log('vuex数据', this.$store.state)
-    // 获取公司信息放入data进行渲染
-    // 发送请求, 已经引入一个封装了的接口getCompanyInfo
-    // 这个接口需要用到公司id 这个id 在个人数据中, 存放在 vuex
-    const companyId = this.$store.state.user.userInfo.companyId
-    this.companyInfo = await getCompanyInfo(companyId)
-
+  created() {
+    // 获取公司信息
+    this.getCompany()
     // 获取角色列表
-    const { rows, total } = await getRoleList(this.pageConfig)
-    this.list = rows
-    this.total = total
+    this.getList()
   },
   methods: {
-    async currentChange(page) {
+    async getCompany() {
+      // 获取公司信息放入data
+      console.log('vuex数据', this.$store.state)
+      // 获取公司信息放入data进行渲染
+      // 发送请求, 已经引入一个封装了的接口getCompanyInfo
+      // 这个接口需要用到公司id 这个id 在个人数据中, 存放在 vuex
+      const companyId = this.$store.state.user.userInfo.companyId
+      this.companyInfo = await getCompanyInfo(companyId)
+    },
+    async getList() {
+      // 获取角色列表
+      const { rows, total } = await getRoleList(this.pageConfig)
+      this.list = rows
+      this.total = total
+    },
+    currentChange(page) {
       console.log(page)
       // 每当触发这个改变页码函数, 都能得到用户最新点击的值
       // 要把这个值设置到页面配置中, 重新获取数据渲染页面
       this.pageConfig.page = page
       // 获取角色列表
-      const { rows, total } = await getRoleList(this.pageConfig)
-      this.list = rows
-      this.total = total
+      this.getList()
     }
   }
 }

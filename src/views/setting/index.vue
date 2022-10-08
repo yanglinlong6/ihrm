@@ -12,10 +12,11 @@
             <el-button size="small" type="primary">添加角色</el-button>
           </el-row>
           <!-- 表格 -->
-          <el-table border>
+          <el-table :data="list" border>
             <!-- table-column 是表格列, label 可以定义表头 -->
-            <el-table-column label="角色名" />
-            <el-table-column label="描述" />
+            <!-- prop指定当前列的字段名 -->
+            <el-table-column label="角色名" prop="name" />
+            <el-table-column label="描述" prop="desc" />
             <el-table-column label="操作" />
           </el-table>
           <!-- 分页/翻页器 -->
@@ -55,14 +56,25 @@ import { getCompanyInfo } from '@/api/setting'
 export default {
   data() {
     return {
-      companyInfo: {}
+      companyInfo: {},
+      list: [
+        // 表格行数据都是数组
+        // 每个对象都是一行
+        { name: '总经理', desc: '啥都管' },
+        // 数据对象中每个字段都可以显示在一列格子上
+        { name: '实习生', desc: '啥都不能关' }
+      ]
     }
   },
   // 进入页面需要获取数据进行渲染
   async created() {
     // 获取公司信息放入data
     console.log('vuex数据', this.$store.state)
-    this.companyInfo = await getCompanyInfo(this.$store.state.user.userInfo.companyId)
+    // 获取公司信息放入data进行渲染
+    // 发送请求, 已经引入一个封装了的接口getCompanyInfo
+    // 这个接口需要用到公司id 这个id 在个人数据中, 存放在 vuex
+    const companyId = this.$store.state.user.userInfo.companyId
+    this.companyInfo = await getCompanyInfo(companyId)
   }
 }
 </script>

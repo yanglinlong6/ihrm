@@ -29,19 +29,19 @@
           <el-form style="width: 600px;" label-width="80px">
             <el-form-item label="企业名称">
               <!-- 表单项以 label 确定名称 -->
-              <el-input disabled />
+              <el-input v-model="companyInfo.name" disabled />
             </el-form-item>
             <el-form-item label="公司地址">
-              <el-input disabled />
+              <el-input v-model="companyInfo.companyAddress" disabled />
             </el-form-item>
             <el-form-item label="公司电话">
-              <el-input disabled />
+              <el-input v-model="companyInfo.companyPhone" disabled />
             </el-form-item>
             <el-form-item label="邮箱">
-              <el-input disabled />
+              <el-input v-model="companyInfo.mailbox" disabled />
             </el-form-item>
             <el-form-item label="备注">
-              <el-input disabled />
+              <el-input v-model="companyInfo.remarks" disabled />
             </el-form-item>
           </el-form>
         </el-tab-pane>

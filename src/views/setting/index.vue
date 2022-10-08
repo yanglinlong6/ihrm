@@ -16,7 +16,7 @@
             <!-- table-column 是表格列, label 可以定义表头 -->
             <!-- prop指定当前列的字段名 -->
             <el-table-column label="角色名" prop="name" />
-            <el-table-column label="描述" prop="desc" />
+            <el-table-column label="描述" prop="description" />
             <el-table-column label="操作" />
           </el-table>
           <!-- 分页/翻页器 -->
@@ -52,18 +52,16 @@
 </template>
 
 <script>
-import { getCompanyInfo } from '@/api/setting'
+import { getCompanyInfo, getRoleList } from '@/api/setting'
 export default {
   data() {
     return {
+      pageConfig: {
+        page: 1,
+        pagesize: 2
+      },
       companyInfo: {},
-      list: [
-        // 表格行数据都是数组
-        // 每个对象都是一行
-        { name: '总经理', desc: '啥都管' },
-        // 数据对象中每个字段都可以显示在一列格子上
-        { name: '实习生', desc: '啥都不能关' }
-      ]
+      list: []
     }
   },
   // 进入页面需要获取数据进行渲染
@@ -75,6 +73,10 @@ export default {
     // 这个接口需要用到公司id 这个id 在个人数据中, 存放在 vuex
     const companyId = this.$store.state.user.userInfo.companyId
     this.companyInfo = await getCompanyInfo(companyId)
+
+    // 获取角色列表
+    const { rows } = await getRoleList(this.pageConfig)
+    this.list = rows
   }
 }
 </script>

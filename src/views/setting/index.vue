@@ -58,7 +58,8 @@
     </el-card>
     <!-- 弹窗 -->
     <!-- 为了处理右上角的x,还有确定按钮添加成功后关闭弹窗的数据清理
-    还需要将 btnCancel 这个清理数据的逻辑, 绑定到 dialog close 事件当中 -->
+    还需要将 btnCancel 这个清理数据的逻辑, 绑定到 dialog close 事件当中
+    这个close 事件, 会处理x的点击, 另外还会在任何你手动关闭的时候触发 -->
     <el-dialog :visible="isShowDialog" title="新增角色" @close="btnCancel">
       <!-- 表单校验三个要素 el-form 绑定 model rules , el-form-item 绑定 prop -->
       <el-form ref="addForm" :model="formData" :rules="rules" label-width="80px">

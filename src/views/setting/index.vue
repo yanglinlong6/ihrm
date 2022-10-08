@@ -59,7 +59,7 @@
     <!-- 弹窗 -->
     <el-dialog :visible="isShowDialog" title="新增角色">
       <!-- 表单校验三个要素 el-form 绑定 model rules , el-form-item 绑定 prop -->
-      <el-form :model="formData" :rules="rules" label-width="80px">
+      <el-form ref="addForm" :model="formData" :rules="rules" label-width="80px">
         <el-form-item label="角色名称" prop="name">
           <el-input v-model="formData.name" />
         </el-form-item>
@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { getCompanyInfo, getRoleList } from '@/api/setting'
+import { getCompanyInfo, getRoleList, addRole } from '@/api/setting'
 export default {
   data() {
     return {
@@ -141,7 +141,18 @@ export default {
       // 获取角色列表
       this.getList()
     },
-    btnOK() {
+    async btnOK() {
+      // 当我点击确定的时候, 最直接一定要做的就是发请求
+      // 除此以外, 还有一些可以进行体验上的优化
+      // 1.校验表单
+      await this.$refs.addForm.validate()
+      // 2.发送请求(带上用户填写的内容)
+      await addRole(this.formData)
+      // 3.提示用户
+      this.$message.success('操作成功')
+      // 4.更新页面
+      this.getList()
+      // 5.关闭弹窗
       this.isShowDialog = false
     },
     btnCancel() {

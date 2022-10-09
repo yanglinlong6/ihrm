@@ -42,6 +42,7 @@
             <el-pagination
               :total="total"
               :page-size="pageConfig.pagesize"
+              :current-page="pageConfig.page"
               @current-change="currentChange"
             />
           </el-row>
@@ -164,8 +165,16 @@ export default {
       // 除此以外, 还有一些可以进行体验上的优化
       // 1.校验表单
       await this.$refs.addForm.validate()
+
       // 2.发送请求(带上用户填写的内容)
       await addRole(this.formData)
+      // 在这里是更新页面, 有同学想要实现一个效果,更新页面时自动跳到最后一页
+      // 算出最后一页的页码即可, 添加完总条数+1, 计算页码
+      // (注意这里计算页面控制请求发送, 另外还要帮到分页组件, 控制分页组件显示)
+      this.total++
+      const lastPage = Math.ceil(this.total / this.pageConfig.pagesize)
+      this.pageConfig.page = lastPage
+
       // 3.提示用户
       this.$message.success('操作成功')
       // 4.更新页面

@@ -2,7 +2,7 @@
   <div class="page-wrapper">
     <el-card class="card">
       <!-- 页面顶部公司信息行 -->
-      <TreeTools :data="companyInfo"/>
+      <TreeTools :data="companyInfo" />
       <!-- 页面顶部公司信息行结束(只是一行) -->
       <hr>
       <!-- 部门树形 -->
@@ -22,6 +22,7 @@
 
 <script>
 import TreeTools from './components/tree-tools.vue'
+import { getDeptsList } from '@/api/departments'
 export default {
   components: {
     TreeTools
@@ -32,29 +33,19 @@ export default {
         name: '黑马程序员',
         manager: '负责人'
       },
-      list: [
-        { name: '人事部', manager: '曹操' },
-        { name: '行政部', manager: '刘备' },
-        {
-          // 如果一个部门有下属, 应该添加一个 children 字段
-          name: '技术部',
-          manager: '孙权',
-          children: [
-            { name: '前端开发' },
-            {
-              name: '后端开发',
-              children: [
-                { name: 'Java' },
-                { name: 'PHP' }
-              ]
-            }
-          ]
-        },
-        { name: '市场部', manager: '刘协' }
-      ],
+      list: [],
       config: {
         label: 'name'
       }
+    }
+  },
+  created() {
+    this.getList()
+  },
+  methods: {
+    async getList() {
+      const { depts } = await getDeptsList()
+      this.list = depts
     }
   }
 }

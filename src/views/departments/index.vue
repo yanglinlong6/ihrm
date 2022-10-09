@@ -32,9 +32,11 @@
       <!-- 部门树形 -->
       <!-- 树形组件传入 data 会自动渲染页面 但是如果想要自定义每个部门的样式 需要用到插槽 -->
       <el-tree :data="list" :props="config" default-expand-all>
-        <!-- 这里可以写每个部门想要的模板 -->
+        <!-- 这里可以写部门想要的模板(只写一次, 代表一个部门, 其实el-tree 会自动遍历) -->
         <!-- 这里跟公司的样式一样, 但是数据不能写死 可以根据文档, 用作用域插槽 data 属性拿到各个部门数据对象 -->
         <template v-slot="{data}">
+          <!-- 这里 data 就是el-tree 遍历的每个部门数据, 是 element ui 自己封装好的
+          只需当成部门对象来用即可 -->
           <el-row style="width: 100%;">
             <!-- 左侧 -->
             <el-col :span="20">{{ data.name }}</el-col>

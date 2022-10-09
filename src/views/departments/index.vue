@@ -2,31 +2,7 @@
   <div class="page-wrapper">
     <el-card class="card">
       <!-- 页面顶部公司信息行 -->
-      <el-row>
-        <!-- 左侧 -->
-        <el-col :span="20">江苏传智播客教育科技股份有限公司</el-col>
-        <!-- 右侧 -->
-        <el-col :span="4">
-          <!-- 右侧再分一行两列 -->
-          <el-row type="flex">
-            <el-col>负责人</el-col>
-            <el-col>
-              <el-dropdown>
-                <!-- 一直显示内容 -->
-                <span>
-                  操作
-                </span>
-                <!-- 菜单本体 -->
-                <el-dropdown-menu>
-                  <el-dropdown-item>添加子部门</el-dropdown-item>
-                  <el-dropdown-item>查看子部门</el-dropdown-item>
-                  <el-dropdown-item>删除子部门</el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
-            </el-col>
-          </el-row>
-        </el-col>
-      </el-row>
+      <TreeTools :data="companyInfo"/>
       <!-- 页面顶部公司信息行结束(只是一行) -->
       <hr>
       <!-- 部门树形 -->
@@ -37,31 +13,7 @@
         <template v-slot="{data}">
           <!-- 这里 data 就是el-tree 遍历的每个部门数据, 是 element ui 自己封装好的
           只需当成部门对象来用即可 -->
-          <el-row style="width: 100%;">
-            <!-- 左侧 -->
-            <el-col :span="20">{{ data.name }}</el-col>
-            <!-- 右侧 -->
-            <el-col :span="4">
-              <!-- 右侧再分一行两列 -->
-              <el-row type="flex">
-                <el-col>{{ data.manager }}</el-col>
-                <el-col>
-                  <el-dropdown>
-                    <!-- 一直显示内容 -->
-                    <span>
-                      操作
-                    </span>
-                    <!-- 菜单本体 -->
-                    <el-dropdown-menu>
-                      <el-dropdown-item>添加子部门</el-dropdown-item>
-                      <el-dropdown-item>查看子部门</el-dropdown-item>
-                      <el-dropdown-item>删除子部门</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </el-dropdown>
-                </el-col>
-              </el-row>
-            </el-col>
-          </el-row>
+          <TreeTools :data="data" />
         </template>
       </el-tree>
     </el-card>
@@ -69,9 +21,17 @@
 </template>
 
 <script>
+import TreeTools from './components/tree-tools.vue'
 export default {
+  components: {
+    TreeTools
+  },
   data() {
     return {
+      companyInfo: {
+        name: '黑马程序员',
+        manager: '负责人'
+      },
       list: [
         { name: '人事部', manager: '曹操' },
         { name: '行政部', manager: '刘备' },

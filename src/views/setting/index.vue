@@ -190,6 +190,11 @@ export default {
       await delRole(id)
       // 提示用户
       this.$message.success('删除成功')
+      // 删除成功后, 如果发现页面上只剩下一条数据, 赶脚往前翻一页
+      // 除了页码本身是第一页的例外(只有页码不等于1才能往前翻)
+      if (this.list.length === 1 && this.pageConfig.page !== 1) {
+        this.pageConfig.page--
+      }
       // 更新页面
       this.getList()
     }

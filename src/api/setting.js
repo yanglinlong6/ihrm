@@ -43,3 +43,12 @@ export function getRoleDetail(id) {
     url: `/sys/role/${id}`
   })
 }
+
+// 编辑时点击确定发送的更新请求
+export function editRole(data) {
+  return request({
+    method: 'put',
+    url: `/sys/role/${data.id}`,
+    data
+  })
+}

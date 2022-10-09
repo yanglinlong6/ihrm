@@ -94,7 +94,7 @@
 </template>
 
 <script>
-import { getCompanyInfo, getRoleList, addRole, delRole, getRoleDetail } from '@/api/setting'
+import { getCompanyInfo, getRoleList, addRole, delRole, getRoleDetail, editRole } from '@/api/setting'
 export default {
   data() {
     return {
@@ -173,13 +173,19 @@ export default {
       await this.$refs.addForm.validate()
 
       // 2.发送请求(带上用户填写的内容)
-      await addRole(this.formData)
-      // 在这里是更新页面, 有同学想要实现一个效果,更新页面时自动跳到最后一页
-      // 算出最后一页的页码即可, 添加完总条数+1, 计算页码
-      // (注意这里计算页面控制请求发送, 另外还要帮到分页组件, 控制分页组件显示)
-      this.total++
-      const lastPage = Math.ceil(this.total / this.pageConfig.pagesize)
-      this.pageConfig.page = lastPage
+      // 可以通过 formData里面有没有id判断是不是编辑请求
+      if (!this.formData.id) {
+        // 原来的新增逻辑
+        await addRole(this.formData)
+        // 在这里是更新页面, 有同学想要实现一个效果,更新页面时自动跳到最后一页
+        // 算出最后一页的页码即可, 添加完总条数+1, 计算页码
+        // (注意这里计算页面控制请求发送, 另外还要帮到分页组件, 控制分页组件显示)
+        this.total++
+        const lastPage = Math.ceil(this.total / this.pageConfig.pagesize)
+        this.pageConfig.page = lastPage
+      } else {
+        await editRole(this.formData)
+      }
 
       // 3.提示用户
       this.$message.success('操作成功')

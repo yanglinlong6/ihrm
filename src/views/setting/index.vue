@@ -196,8 +196,17 @@ export default {
     },
     btnCancel() {
       console.log('取消函数')
-      // 清理数据
+
+      // 对整个表单进行重置，
+      // 1. 将所有字段值重置为初始值(是根据第一次点击时, 初始化的值决定, 不一定符合条件)
+      // 2. 移除校验结果(这个不能少, 也是我们为什么手动清理了数据, 也要保留这个reset的原因)
       this.$refs.addForm.resetFields()
+      // 真的想要清理数据, 还是得手动处理
+      this.formData = {
+        name: '',
+        description: ''
+      }
+
       // 关闭弹窗
       this.isShowDialog = false
     },

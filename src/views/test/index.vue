@@ -1,10 +1,19 @@
 <template>
   <div>
     <TestTable :data="list">
-      <tr>
-        <th>角色名父组件</th>
-        <th>描述父组件</th>
-      </tr>
+      <!-- 还有具名插槽的用法 -->
+      <template v-slot:header>
+        <th>角色名</th>
+        <th>描述</th>
+      </template>
+      <!-- 这里是父组件, 如果直接写 item
+      会在当前父组件的 data 里面找(找不到)
+      这些数据的作用域只在子组件内部 -->
+      <!-- 通过作用域插槽实现, v-slot 接收一个对象, 包含内部所有的数据 -->
+      <template v-slot="{ row }">
+        <td>{{ row.name }}</td>
+        <td>{{ row.desc }}</td>
+      </template>
     </TestTable>
   </div>
 </template>

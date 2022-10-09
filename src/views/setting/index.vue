@@ -27,7 +27,7 @@
                 但是怎么获取到当前行数据, 根据组件库文档, 可以通过接收 scope.row 获取
                 其中 scope 可以自己起名, 但是里面自带的 row 是组件库定义的, 其实就是每行数据自己的对象-->
                 <el-button size="mini" type="primary">分配权限</el-button>
-                <el-button size="mini" type="warning">编辑</el-button>
+                <el-button size="mini" type="warning" @click="showEdit(row.id)">编辑</el-button>
                 <!-- <el-button size="mini" type="danger" @click="delRole(scope.row.id)">删除</el-button> -->
                 <el-button size="mini" type="danger" @click="delRole(row.id)">删除</el-button>
               </template>
@@ -94,7 +94,7 @@
 </template>
 
 <script>
-import { getCompanyInfo, getRoleList, addRole, delRole } from '@/api/setting'
+import { getCompanyInfo, getRoleList, addRole, delRole, getRoleDetail } from '@/api/setting'
 export default {
   data() {
     return {
@@ -136,6 +136,12 @@ export default {
     this.getList()
   },
   methods: {
+    async showEdit(id) {
+      // 点击时, 根据点击到的id获取详情, 填充到表单上回显
+      this.formData = await getRoleDetail(id)
+      // 显示弹窗
+      this.isShowDialog = true
+    },
     async getCompany() {
       // 获取公司信息放入data
       console.log('vuex数据', this.$store.state)

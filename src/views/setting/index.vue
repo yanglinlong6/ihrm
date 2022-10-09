@@ -183,6 +183,9 @@ export default {
     async delRole(id) {
       console.log('删除按钮的点击事件, 利用作用域插槽')
       console.log(id)
+      // 为了避免误操作, 添加二次询问 await 等待
+      // 只有点击确定才会往下走, 否则就会报错(正常)
+      await this.$confirm('确定删除吗?')
       // 发送请求
       await delRole(id)
       // 提示用户

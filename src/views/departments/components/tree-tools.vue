@@ -28,9 +28,15 @@
 
 <script>
 export default {
+  // props: ['data']
+  // props: {
+  //   data: Object
+  // }
   props: {
     data: {
+      // 类型
       type: Object,
+      // 必填
       required: true
     }
   }

@@ -2,18 +2,18 @@
   <div class="page-wrapper">
     <el-card class="card">
       <!-- 页面顶部公司信息行 -->
-      <TreeTools :data="companyInfo" />
+      <TreeTools :data="companyInfo" :company="true" />
       <!-- 页面顶部公司信息行结束(只是一行) -->
       <hr>
       <!-- 部门树形 -->
       <!-- 树形组件传入 data 会自动渲染页面 但是如果想要自定义每个部门的样式 需要用到插槽 -->
-      <el-tree :data="list" :props="config" default-expand-all>
+      <el-tree :expand-on-click-node="false" :data="list" :props="config" default-expand-all>
         <!-- 这里可以写部门想要的模板(只写一次, 代表一个部门, 其实el-tree 会自动遍历) -->
         <!-- 这里跟公司的样式一样, 但是数据不能写死 可以根据文档, 用作用域插槽 data 属性拿到各个部门数据对象 -->
         <template v-slot="{data}">
           <!-- 这里 data 就是el-tree 遍历的每个部门数据, 是 element ui 自己封装好的
           只需当成部门对象来用即可 -->
-          <TreeTools :data="data" />
+          <TreeTools :data="data" :company="false" />
         </template>
       </el-tree>
     </el-card>

@@ -1,5 +1,5 @@
 <template>
-  <el-row style="width: 100%;">
+  <el-row style="width: 100%;" :class="{companyTitle: company}">
     <!-- 左侧 -->
     <el-col :span="20">{{ data.name }}</el-col>
     <!-- 右侧 -->
@@ -10,14 +10,14 @@
         <el-col>
           <el-dropdown>
             <!-- 一直显示内容 -->
-            <span>
+            <span class="dropdownSpan">
               操作
             </span>
             <!-- 菜单本体 -->
             <el-dropdown-menu>
               <el-dropdown-item>添加子部门</el-dropdown-item>
-              <el-dropdown-item>查看子部门</el-dropdown-item>
-              <el-dropdown-item>删除子部门</el-dropdown-item>
+              <el-dropdown-item v-if="!company">编辑部门</el-dropdown-item>
+              <el-dropdown-item v-if="!company">删除部门</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
@@ -38,11 +38,20 @@ export default {
       type: Object,
       // 必填
       required: true
+    },
+    company: {
+      type: Boolean,
+      required: true
     }
   }
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.dropdownSpan {
+  cursor: pointer;
+}
+.companyTitle {
+  font-weight: bold;
+}
 </style>

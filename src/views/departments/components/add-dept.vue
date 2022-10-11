@@ -35,6 +35,10 @@ export default {
     isShowDialog: {
       type: Boolean,
       required: true
+      // 除了 required 还能用 default 属性
+      // required 是指定是否必填
+      // default 是可以指定默认值
+      // default: false
     }
   }
 }

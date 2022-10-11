@@ -1,6 +1,5 @@
 <template>
   <div class="page-wrapper">
-    <el-button @click="isShowDialog = true">打开弹窗</el-button>
     <el-card class="card">
       <!-- 页面顶部公司信息行 -->
       <TreeTools :data="companyInfo" :company="true" />
@@ -14,7 +13,7 @@
         <template v-slot="{data}">
           <!-- 这里 data 就是el-tree 遍历的每个部门数据, 是 element ui 自己封装好的
           只需当成部门对象来用即可 -->
-          <TreeTools :data="data" :company="false" />
+          <TreeTools :data="data" :company="false" @showAddDialog="showAddDialog" />
         </template>
       </el-tree>
     </el-card>
@@ -57,6 +56,10 @@ export default {
       // 这个转换逻辑后续其他页面也用到, 会封装成一个公共函数
       // this.list = depts
       this.list = listToTree(depts, '')
+    },
+    // 树形组件点击添加部门触发
+    showAddDialog() {
+      this.isShowDialog = true
     }
   }
 }

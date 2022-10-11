@@ -13,7 +13,7 @@
         <template v-slot="{data}">
           <!-- 这里 data 就是el-tree 遍历的每个部门数据, 是 element ui 自己封装好的
           只需当成部门对象来用即可 -->
-          <TreeTools :data="data" :company="false" @showAddDialog="showAddDialog" />
+          <TreeTools :data="data" :company="false" @showAddDialog="showAddDialog" @reload="getList" />
         </template>
       </el-tree>
     </el-card>

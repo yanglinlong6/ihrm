@@ -20,7 +20,7 @@
               需要添加一个修饰符 .native 当然如果是 div / span 之类则不需要-->
               <el-dropdown-item @click.native="showAddDialog">添加子部门</el-dropdown-item>
               <el-dropdown-item v-if="!company">编辑部门</el-dropdown-item>
-              <el-dropdown-item v-if="!company">删除部门</el-dropdown-item>
+              <el-dropdown-item v-if="!company" @click.native="delDept">删除部门</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { delDept } from '@/api/departments'
 export default {
   // props: ['data']
   // props: {
@@ -52,6 +53,17 @@ export default {
       console.log('树形组件点击')
       console.log('应该往外传递自己的数据', this.data.id)
       this.$emit('showAddDialog', this.data.id)
+    },
+    async delDept() {
+      // // 这里是当前组件的函数, 被点击事件调用
+      // 二次询问
+      await this.$confirm('是否确认删除')
+      // 触发api请求(刚好同名)
+      await delDept(this.data.id)
+      // 提醒用户
+      this.$message.success('操作成功')
+      // 更新页面(现在在部门组件, 没法更新, 需要通知父页面)
+      this.$emit('reload')
     }
   }
 }

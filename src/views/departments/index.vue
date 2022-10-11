@@ -1,5 +1,6 @@
 <template>
   <div class="page-wrapper">
+    <el-button @click="isShowDialog = true">打开弹窗</el-button>
     <el-card class="card">
       <!-- 页面顶部公司信息行 -->
       <TreeTools :data="companyInfo" :company="true" />
@@ -17,19 +18,24 @@
         </template>
       </el-tree>
     </el-card>
+
+    <AddDept :is-show-dialog="isShowDialog" />
   </div>
 </template>
 
 <script>
 import TreeTools from './components/tree-tools.vue'
+import AddDept from './components/add-dept.vue'
 import { getDeptsList } from '@/api/departments'
 import { listToTree } from '@/utils/'
 export default {
   components: {
-    TreeTools
+    TreeTools,
+    AddDept
   },
   data() {
     return {
+      isShowDialog: false,
       companyInfo: {
         name: '黑马程序员',
         manager: '负责人'

@@ -1,6 +1,6 @@
 <template>
   <!-- 新增部门的弹层 visible 控制显示, -->
-  <el-dialog title="新增部门" :visible="isShowDialog">
+  <el-dialog title="新增部门" :visible="isShowDialog" @close="btnCancel">
     <!-- 表单组件  el-form   label-width设置label的宽度   -->
     <!-- 匿名插槽 -->
     <el-form ref="addForm" label-width="120px" :model="formData" :rules="rules">
@@ -108,7 +108,16 @@ export default {
       // 更新页面
       this.$emit('reload')
     },
-    btnCancel() {}
+    btnCancel() {
+      // 清理数据
+      // 清理报错
+      // 根据之前的经验, resetFields 清理数据在编辑情况下没法清理后续添加的 id 等数据
+      // 需要手动处理
+      this.$refs.addForm.resetFields()
+      this.formData = {}
+      // 关闭弹窗(通知父组件关闭, 单项数据流, 不能自己设置 props)
+      this.$emit('closeDialog')
+    }
   }
 }
 </script>

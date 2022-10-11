@@ -18,7 +18,12 @@
       </el-tree>
     </el-card>
 
-    <AddDept :id="deptId" :is-show-dialog="isShowDialog" @reload="getList" @closeDialog="isShowDialog = false" />
+    <AddDept
+      :id="deptId"
+      :is-show-dialog="isShowDialog"
+      @reload="getList"
+      @closeDialog="isShowDialog = false"
+    />
   </div>
 </template>
 

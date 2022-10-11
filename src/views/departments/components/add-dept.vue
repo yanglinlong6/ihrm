@@ -11,7 +11,19 @@
         <el-input v-model="formData.code" style="width:80%" placeholder="1-50个字符" />
       </el-form-item>
       <el-form-item label="部门负责人" prop="manager">
-        <el-select v-model="formData.manager" style="width:80%" placeholder="请选择" />
+        <el-select v-model="formData.manager" style="width:80%" placeholder="请选择">
+          <!-- 第一要注意就是开闭标签插槽嵌套 -->
+          <!-- <el-option value="小明" />
+          <el-option value="小刚" /> -->
+          <!-- 选项可以遍历列表
+          其中 value 值会在某个选项被选中时
+          绑到 上面的 v-model 属性中 -->
+          <el-option
+            v-for="item in userList"
+            :key="item.id"
+            :value="item.username"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="部门介绍" prop="introduce">
         <el-input v-model="formData.introduce" style="width:80%" placeholder="1-300个字符" type="textarea" :rows="3" />
@@ -29,6 +41,7 @@
 </template>
 
 <script>
+import { getEmployeeSimple } from '@/api/employee'
 export default {
   props: {
     // 这里是弹窗组件, 是否显示由外部控制
@@ -59,8 +72,13 @@ export default {
         manager: [{ required: true, message: '部门负责人不能为空', trigger: 'blur' }],
         introduce: [{ required: true, message: '部门介绍不能为空', trigger: 'blur' },
           { trigger: 'blur', min: 1, max: 300, message: '部门介绍要求1-50个字符' }]
-      }
+      },
+      userList: []
     }
+  },
+  async created() {
+    this.userList = await getEmployeeSimple()
+    console.log('获取员工简单列表', this.userList)
   }
 }
 </script>

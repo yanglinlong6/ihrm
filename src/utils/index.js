@@ -115,3 +115,23 @@ export function param2Obj(url) {
   })
   return obj
 }
+
+// 树形数据转换
+// 这种逻辑, 单独想出来的难度很大
+// 靠经验, 靠百度
+// 一般思路, 看见不定的多层数据处理嵌套, 而且多层操作大致类似就会考虑递归
+// 但是每次递归的逻辑都不一样(递归只是指自己调用自己, 所以你在网上看的递归说明文章套用不上很正常)
+// 先尽量考虑第一层的单独一层操作的共性, 写完一层以后, 再考虑递归
+export function listToTree(list, pid) {
+  // 接收列表和目标pid, 进行筛选, 得出符合当前pid的列表数组
+  const res = []
+  list.forEach(item => {
+    if (item.pid === pid) {
+      res.push(item)
+      // 第一层找到所有pid为空字符串的部门,每个部门都可能有自己的子部门(这里就是递归)
+      // 找找有没有children, 这个函数自己本身就是可以传入pid按需查找返回数组的方法
+      item.children = listToTree(list, item.id)
+    }
+  })
+  return res
+}

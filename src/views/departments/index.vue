@@ -23,6 +23,7 @@
 <script>
 import TreeTools from './components/tree-tools.vue'
 import { getDeptsList } from '@/api/departments'
+import { listToTree } from '@/utils/'
 export default {
   components: {
     TreeTools
@@ -45,7 +46,11 @@ export default {
   methods: {
     async getList() {
       const { depts } = await getDeptsList()
-      this.list = depts
+      // 这里是页面进入调用的函数进行数据获取,
+      // 不过数据是扁平的(接口原因)需要转换
+      // 这个转换逻辑后续其他页面也用到, 会封装成一个公共函数
+      // this.list = depts
+      this.list = listToTree(depts, '')
     }
   }
 }

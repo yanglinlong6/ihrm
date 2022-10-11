@@ -13,6 +13,7 @@
       <el-form-item label="部门负责人" prop="manager">
         <el-select v-model="formData.manager" style="width:80%" placeholder="请选择">
           <!-- 第一要注意就是开闭标签插槽嵌套 -->
+          <!-- el-option 的 value 属性决定了点击时那个数据会传入上面的 v-model -->
           <!-- <el-option value="小明" />
           <el-option value="小刚" /> -->
           <!-- 选项可以遍历列表

@@ -3,7 +3,7 @@
   <el-dialog title="新增部门" :visible="isShowDialog">
     <!-- 表单组件  el-form   label-width设置label的宽度   -->
     <!-- 匿名插槽 -->
-    <el-form label-width="120px" :model="formData" :rules="rules">
+    <el-form ref="addForm" label-width="120px" :model="formData" :rules="rules">
       <el-form-item label="部门名称" prop="name">
         <el-input v-model="formData.name" style="width:80%" placeholder="1-50个字符" />
       </el-form-item>
@@ -34,8 +34,8 @@
     <el-row slot="footer" type="flex" justify="center">
       <!-- 列被分为24 -->
       <el-col :span="6">
-        <el-button type="primary" size="small">确定</el-button>
-        <el-button size="small">取消</el-button>
+        <el-button type="primary" size="small" @click="btnOK">确定</el-button>
+        <el-button size="small" @click="btnCancel">取消</el-button>
       </el-col>
     </el-row>
   </el-dialog>
@@ -43,6 +43,7 @@
 
 <script>
 import { getEmployeeSimple } from '@/api/employee'
+import { addDept } from '@/api/departments'
 export default {
   props: {
     // 这里是弹窗组件, 是否显示由外部控制
@@ -53,6 +54,10 @@ export default {
       // required 是指定是否必填
       // default 是可以指定默认值
       // default: false
+    },
+    id: {
+      type: String,
+      required: true
     }
   },
   data() {
@@ -80,6 +85,25 @@ export default {
   async created() {
     this.userList = await getEmployeeSimple()
     console.log('获取员工简单列表', this.userList)
+  },
+  methods: {
+    async btnOK() {
+      // 校验表单
+      await this.$refs.addForm.validate()
+      // 发请求
+      // 将后端需要的数据带上发送请求
+      await addDept({
+        // 将所有用户填写的数据都带上
+        ...this.formData,
+        // 还有后端需要的父部门id
+        pid: this.id
+      })
+      // 提示用户
+      // 关闭弹窗
+      // 更新页面
+      console.log('发送请求')
+    },
+    btnCancel() {}
   }
 }
 </script>

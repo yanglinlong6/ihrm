@@ -50,7 +50,8 @@ export default {
   methods: {
     showAddDialog() {
       console.log('树形组件点击')
-      this.$emit('showAddDialog')
+      console.log('应该往外传递自己的数据', this.data.id)
+      this.$emit('showAddDialog', this.data.id)
     }
   }
 }

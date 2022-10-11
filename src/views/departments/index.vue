@@ -18,7 +18,7 @@
       </el-tree>
     </el-card>
 
-    <AddDept :is-show-dialog="isShowDialog" />
+    <AddDept :id="deptId" :is-show-dialog="isShowDialog" />
   </div>
 </template>
 
@@ -34,7 +34,10 @@ export default {
   },
   data() {
     return {
+      // 弹窗相关
       isShowDialog: false,
+      deptId: '',
+
       companyInfo: {
         name: '黑马程序员',
         manager: '负责人'
@@ -58,7 +61,11 @@ export default {
       this.list = listToTree(depts, '')
     },
     // 树形组件点击添加部门触发
-    showAddDialog() {
+    showAddDialog(id) {
+      // 树形子组件, 点击时带上了 id
+      // 这里作为父组件是一个桥梁的效果, 自己存起来
+      // 再交给弹窗, 方便新增时记录到底属于哪个父部门
+      this.deptId = id
       this.isShowDialog = true
     }
   }

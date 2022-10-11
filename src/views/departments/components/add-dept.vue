@@ -99,9 +99,14 @@ export default {
         pid: this.id
       })
       // 提示用户
-      // 关闭弹窗
+      this.$message.success('操作成功')
+      // 关闭弹窗(有坑版)
+      // props 是单项数据流, 不能直接修改
+      // this.isShowDialog = false
+      // 要改props要通知父页面改
+      this.$emit('closeDialog')
       // 更新页面
-      console.log('发送请求')
+      this.$emit('reload')
     },
     btnCancel() {}
   }

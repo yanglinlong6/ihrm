@@ -71,14 +71,32 @@ export default {
       // 2. 所有部门列表
       const { depts } = await getDeptsList()
       // 这里是有没有重复的标记, 默认设为false认为没有重复
+      // 重复代码的判断, 在新增和编辑其实不一样
+      // 如果是新增, 当然是不能跟以前的所有部门有任何重名
+      // 但是编辑时, 重名的判断, 就要看看, 那个重名的是不是自己, 如果是,就忽略掉
+      // 也就是说, 编辑时的判断调教, 必须找到一个 code 跟输入值一样, 但是不是正在编辑的这个部门
       let res = false
-      depts.forEach(item => {
-        // 遍历所有部门如果有任何一个 code 等于用户输入的 val
-        // 重复标记就改为 true 证明有重复
-        if (item.code === val) {
-          res = true
-        }
-      })
+      if (!this.formData.id) {
+        // 新增
+        // depts.forEach(item => {
+        // // 遍历所有部门如果有任何一个 code 等于用户输入的 val
+        // // 重复标记就改为 true 证明有重复
+        //   if (item.code === val) {
+        //     res = true
+        //   }
+        // })
+        res = depts.some(item => item.code === val)
+      } else {
+        // 编辑
+        res = depts.some(item => item.code === val && item.id !== this.formData.id)
+        // depts.forEach(item => {
+        // // 遍历所有部门如果有任何一个 code 等于用户输入的 val
+        // // 重复标记就改为 true 证明有重复
+        //   if (item.code === val && item.id !== this.formData.id) {
+        //     res = true
+        //   }
+        // })
+      }
       // element ui 自定义校验函数处理
       if (res) {
         callback(new Error('code 全公司必须唯一'))

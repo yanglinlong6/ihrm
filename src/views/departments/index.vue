@@ -13,7 +13,7 @@
         <template v-slot="{data}">
           <!-- 这里 data 就是el-tree 遍历的每个部门数据, 是 element ui 自己封装好的
           只需当成部门对象来用即可 -->
-          <TreeTools :data="data" :company="false" @showAddDialog="showAddDialog" @reload="getList" />
+          <TreeTools :data="data" :company="false" @showAddDialog="showAddDialog" @showEditDialog="showEditDialog" @reload="getList" />
         </template>
       </el-tree>
     </el-card>
@@ -70,6 +70,11 @@ export default {
       // 树形子组件, 点击时带上了 id
       // 这里作为父组件是一个桥梁的效果, 自己存起来
       // 再交给弹窗, 方便新增时记录到底属于哪个父部门
+      this.deptId = id
+      this.isShowDialog = true
+    },
+    // 显示编辑弹窗
+    showEditDialog(id) {
       this.deptId = id
       this.isShowDialog = true
     }

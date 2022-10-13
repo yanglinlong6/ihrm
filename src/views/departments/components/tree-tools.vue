@@ -58,15 +58,19 @@ export default {
       this.$emit('showEditDialog', this.data.id)
     },
     async delDept() {
-      // // 这里是当前组件的函数, 被点击事件调用
-      // 二次询问
-      await this.$confirm('是否确认删除')
-      // 触发api请求(刚好同名)
-      await delDept(this.data.id)
-      // 提醒用户
-      this.$message.success('操作成功')
-      // 更新页面(现在在部门组件, 没法更新, 需要通知父页面)
-      this.$emit('reload')
+      try {
+        // 这里是当前组件的函数, 被点击事件调用
+        // 二次询问
+        await this.$confirm('是否确认删除')
+        // 触发api请求(刚好同名)
+        await delDept(this.data.id)
+        // 提醒用户
+        this.$message.success('操作成功')
+        // 更新页面(现在在部门组件, 没法更新, 需要通知父页面)
+        this.$emit('reload')
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 }

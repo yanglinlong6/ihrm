@@ -88,31 +88,36 @@ export default {
   },
   methods: {
     async btnOK() {
-      // 校验表单
-      await this.$refs.addForm.validate()
-      // 发请求
-      // 将后端需要的数据带上发送请求
-      if (!this.formData.id) {
+      try {
+        // 校验表单
+        await this.$refs.addForm.validate()
+        // 发请求
+        // 将后端需要的数据带上发送请求
+        if (!this.formData.id) {
         // 没有回显过 id 就是新增
-        await addDept({
+          await addDept({
           // 将所有用户填写的数据都带上
-          ...this.formData,
-          // 还有后端需要的父部门id
-          pid: this.id
-        })
-      } else {
+            ...this.formData,
+            // 还有后端需要的父部门id
+            pid: this.id
+          })
+        } else {
         // 编辑
-        await editDept(this.formData)
+          await editDept(this.formData)
+        }
+        // 提示用户
+        this.$message.success('操作成功')
+        // 关闭弹窗(有坑版)
+        // props 是单项数据流, 不能直接修改
+        // this.isShowDialog = false
+        // 要改props要通知父页面改
+        this.$emit('closeDialog')
+        // 更新页面
+        this.$emit('reload')
+      } catch (err) {
+        // 这里是为了告诉程序, 我们处理过错误
+        console.log(err)
       }
-      // 提示用户
-      this.$message.success('操作成功')
-      // 关闭弹窗(有坑版)
-      // props 是单项数据流, 不能直接修改
-      // this.isShowDialog = false
-      // 要改props要通知父页面改
-      this.$emit('closeDialog')
-      // 更新页面
-      this.$emit('reload')
     },
     btnCancel() {
       // 清理数据

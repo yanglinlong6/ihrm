@@ -15,7 +15,7 @@
           <el-table-column label="序号" sortable="" prop="index" />
           <el-table-column label="姓名" prop="username" sortable="" />
           <el-table-column label="工号" prop="workNumber" sortable="" />
-          <el-table-column label="聘用形式" prop="formOfEmployment" sortable="" />
+          <el-table-column :formatter="formatEmployment" label="聘用形式" prop="formOfEmployment" sortable="" />
           <el-table-column label="部门" prop="departmentName" sortable="" />
           <el-table-column label="入职时间" prop="timeOfEntry" sortable="" />
           <el-table-column label="账户状态" prop="enableState" sortable="" />
@@ -93,6 +93,20 @@ export default {
     currentChange(page) {
       this.pageConfig.page = page
       this.getList()
+    },
+    formatEmployment(row, col, cell, index) {
+      // 聘用形式格式化函数
+      // 其中返回值会替换每个聘用形式的格子
+      // row 当前行
+      // col 当前列
+      // cell 当前格子
+      // index 当前索引
+      if (cell === 1) {
+        return '正式工'
+      }
+      if (cell === 2) {
+        return '临时工'
+      }
     }
   }
 }

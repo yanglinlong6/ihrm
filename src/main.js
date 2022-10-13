@@ -41,6 +41,16 @@ Vue.directive('fiximg', {
   }
 })
 
+// 全局组件注册方式 Vue.component(组件名字符串, 组件对象)
+// import PageTools from '@/components/PageTools'
+// Vue.component('PageTools', PageTools)
+
+// 插件的使用方法
+// vue 自带的插件机制, Vue.use(插件对象)
+// 插件对象的 install 方法会被自动执行
+import MyPlugin from '@/components/MyPlugin'
+Vue.use(MyPlugin)
+
 new Vue({
   el: '#app',
   router,

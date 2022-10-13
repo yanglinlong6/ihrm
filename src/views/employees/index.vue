@@ -17,11 +17,14 @@
 </template>
 
 <script>
-import PageTools from '@/components/PageTools'
+// 局部注册方法, 每个vue文件要用一个组件
+// 都得单独进行注册, 如果多个地方使用可以
+// 考虑在 main.js 全局注册
+// import PageTools from '@/components/PageTools'
 export default {
-  components: {
-    PageTools
-  }
+  // components: {
+  //   PageTools
+  // }
 }
 </script>
 

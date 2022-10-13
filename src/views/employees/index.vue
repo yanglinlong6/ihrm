@@ -12,7 +12,7 @@
       <!-- 放置表格和分页 -->
       <el-card>
         <el-table border :data="list">
-          <el-table-column label="序号" sortable="" type="index" />
+          <el-table-column label="序号" sortable="" prop="index" />
           <el-table-column label="姓名" prop="username" sortable="" />
           <el-table-column label="工号" prop="workNumber" sortable="" />
           <el-table-column label="聘用形式" prop="formOfEmployment" sortable="" />
@@ -71,7 +71,24 @@ export default {
     async getList() {
       const { total, rows } = await getEmployee(this.pageConfig)
       this.total = total
-      this.list = rows
+      // map 除了 item 还可以得到 Index
+      this.list = rows.map((item, index) => {
+        // 算出上一页页码
+        const lastPage = this.pageConfig.page - 1
+        // 算出前面页面的总条数
+        const totalLastPage = lastPage * this.pageConfig.size
+        // 加上当前数组索引(从零开始还要加一)
+        const newIndex = totalLastPage + index + 1
+
+        return {
+          ...item,
+          // 由于后台数据没有带上序号, 我每次拿到列表
+          // 都进行自己的计算
+          // 每一个索引 = 上一页最后一条数据索引 + 当前新索引
+          //          = (上一页页码*页面长度) + 当前新索引
+          index: newIndex
+        }
+      })
     },
     currentChange(page) {
       this.pageConfig.page = page

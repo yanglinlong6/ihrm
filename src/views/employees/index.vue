@@ -32,7 +32,12 @@
         </el-table>
         <!-- 分页组件 -->
         <el-row type="flex" justify="center" align="middle" style="height: 60px">
-          <el-pagination layout="prev, pager, next" />
+          <el-pagination
+            layout="prev, pager, next"
+            :total="total"
+            :page-size="pageConfig.size"
+            @current-change="currentChange"
+          />
         </el-row>
       </el-card>
     </div>
@@ -67,6 +72,10 @@ export default {
       const { total, rows } = await getEmployee(this.pageConfig)
       this.total = total
       this.list = rows
+    },
+    currentChange(page) {
+      this.pageConfig.page = page
+      this.getList()
     }
   }
 }

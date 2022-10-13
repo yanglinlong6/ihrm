@@ -43,7 +43,7 @@
 
 <script>
 import { getEmployeeSimple } from '@/api/employee'
-import { addDept, editDept } from '@/api/departments'
+import { addDept, editDept, getDeptsList } from '@/api/departments'
 export default {
   props: {
     // 这里是弹窗组件, 是否显示由外部控制
@@ -61,6 +61,31 @@ export default {
     }
   },
   data() {
+    const checkRepeatCode = async(rule, val, callback) => {
+      // 根据文档, 默认会有三个形参
+      // rule 当前规则对象, val 用户数据的值, callback 回调
+      // 其中 callback 必须被调用 如果成功调用时不带任何参数 callback()
+      // 如果出了错 带上错误对象 callback(new Error)
+      // 我们实际的校验逻辑希望: 当前用户输入值 不能等于任何一个存在于部门列表中的 code
+      // 1. 当前用户输入值 val
+      // 2. 所有部门列表
+      const { depts } = await getDeptsList()
+      // 这里是有没有重复的标记, 默认设为false认为没有重复
+      let res = false
+      depts.forEach(item => {
+        // 遍历所有部门如果有任何一个 code 等于用户输入的 val
+        // 重复标记就改为 true 证明有重复
+        if (item.code === val) {
+          res = true
+        }
+      })
+      // element ui 自定义校验函数处理
+      if (res) {
+        callback(new Error('code 全公司必须唯一'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 定义表单数据
       formData: {
@@ -73,8 +98,12 @@ export default {
       rules: {
         name: [{ required: true, message: '部门名称不能为空', trigger: 'blur' },
           { min: 1, max: 50, message: '部门名称要求1-50个字符', trigger: 'blur' }],
-        code: [{ required: true, message: '部门编码不能为空', trigger: 'blur' },
-          { min: 1, max: 50, message: '部门编码要求1-50个字符', trigger: 'blur' }],
+        code: [
+          { required: true, message: '部门编码不能为空', trigger: 'blur' },
+          { min: 1, max: 50, message: '部门编码要求1-50个字符', trigger: 'blur' },
+          // 为了校验代码不重复, 添加自定义校验
+          { validator: checkRepeatCode, trigger: 'blur' }
+        ],
         manager: [{ required: true, message: '部门负责人不能为空', trigger: 'blur' }],
         introduce: [{ required: true, message: '部门介绍不能为空', trigger: 'blur' },
           { trigger: 'blur', min: 1, max: 300, message: '部门介绍要求1-50个字符' }]

@@ -1,6 +1,6 @@
 <template>
   <!-- 新增部门的弹层 visible 控制显示, -->
-  <el-dialog title="新增部门" :visible="isShowDialog" @close="btnCancel">
+  <el-dialog :title="formData.id?'编辑部门':'新增部门'" :visible="isShowDialog" @close="btnCancel">
     <!-- 表单组件  el-form   label-width设置label的宽度   -->
     <!-- 匿名插槽 -->
     <el-form ref="addForm" label-width="120px" :model="formData" :rules="rules">
@@ -43,7 +43,7 @@
 
 <script>
 import { getEmployeeSimple } from '@/api/employee'
-import { addDept } from '@/api/departments'
+import { addDept, editDept } from '@/api/departments'
 export default {
   props: {
     // 这里是弹窗组件, 是否显示由外部控制
@@ -92,12 +92,18 @@ export default {
       await this.$refs.addForm.validate()
       // 发请求
       // 将后端需要的数据带上发送请求
-      await addDept({
-        // 将所有用户填写的数据都带上
-        ...this.formData,
-        // 还有后端需要的父部门id
-        pid: this.id
-      })
+      if (!this.formData.id) {
+        // 没有回显过 id 就是新增
+        await addDept({
+          // 将所有用户填写的数据都带上
+          ...this.formData,
+          // 还有后端需要的父部门id
+          pid: this.id
+        })
+      } else {
+        // 编辑
+        await editDept(this.formData)
+      }
       // 提示用户
       this.$message.success('操作成功')
       // 关闭弹窗(有坑版)

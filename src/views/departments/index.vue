@@ -2,7 +2,7 @@
   <div class="page-wrapper">
     <el-card class="card">
       <!-- 页面顶部公司信息行 -->
-      <TreeTools :data="companyInfo" :company="true" />
+      <TreeTools :data="companyInfo" :company="true" @showAddDialog="showAddDialog" />
       <!-- 页面顶部公司信息行结束(只是一行) -->
       <hr>
       <!-- 部门树形 -->
@@ -46,7 +46,8 @@ export default {
 
       companyInfo: {
         name: '黑马程序员',
-        manager: '负责人'
+        manager: '负责人',
+        id: ''
       },
       list: [],
       config: {

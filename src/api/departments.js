@@ -22,3 +22,10 @@ export function delDept(id) {
     url: `/company/department/${id}`
   })
 }
+
+// 获取部门详情
+export function getDeptById(id) {
+  return request({
+    url: `/company/department/${id}`
+  })
+}

@@ -20,6 +20,7 @@
 
     <AddDept
       :id="deptId"
+      ref="addForm"
       :is-show-dialog="isShowDialog"
       @reload="getList"
       @closeDialog="isShowDialog = false"
@@ -30,7 +31,7 @@
 <script>
 import TreeTools from './components/tree-tools.vue'
 import AddDept from './components/add-dept.vue'
-import { getDeptsList } from '@/api/departments'
+import { getDeptsList, getDeptById } from '@/api/departments'
 import { listToTree } from '@/utils/'
 export default {
   components: {
@@ -74,7 +75,13 @@ export default {
       this.isShowDialog = true
     },
     // 显示编辑弹窗
-    showEditDialog(id) {
+    async showEditDialog(id) {
+      // 每个部门被编辑, 都会在这里弹窗
+      // 这里也知道部门id如果要拿数据最方便
+      // 唯一需要做的是, 弹窗表单在子组件, 所以直接改子组件的数据
+      // 父组件可以通过 refs 调用子组件函数或者直接修改子组件的数据
+      this.$refs.addForm.formData = await getDeptById(id)
+
       this.deptId = id
       this.isShowDialog = true
     }

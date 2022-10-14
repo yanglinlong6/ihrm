@@ -101,12 +101,30 @@ export default {
       // col 当前列
       // cell 当前格子
       // index 当前索引
-      if (cell === 1) {
-        return '正式工'
-      }
-      if (cell === 2) {
-        return '临时工'
-      }
+      // if (cell === 1) {
+      //   return '正式工'
+      // }
+      // if (cell === 2) {
+      //   return '临时工'
+      // }
+      // if (cell === 3) {
+      //   return '实习生'
+      // }
+      // if (cell === 4) {
+      //   return '试用期'
+      // }
+      // 简化思路: 将数据提取出来, 跟渲染部分分离
+      // 在术语上交枚举(将所有可能性列举出来放在一起)
+      const hireType = [
+        // { id: 1, value: '正式工' },
+        { id: 2, value: '非正式' },
+        { id: 3, value: '实习生' },
+        { id: 4, value: '试用期' }
+      ]
+      // 每次显示时, 都从这个数组中找到 id 跟 cell 格子数据相同的对象
+      // 然后返回 value
+      const obj = hireType.find(item => item.id === cell)
+      return obj ? obj.value : '未知'
     }
   }
 }

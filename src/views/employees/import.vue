@@ -33,24 +33,27 @@ export default {
       // ]
       const newData = data.results.map(item => {
         const newUser = {}
-        newUser.username = item['姓名']
-        newUser.timeOfEntry = item['入职日期']
-        newUser.workNumber = item['工号']
-        newUser.mobile = item['手机号']
-        newUser.correctionTime = item['转正日期']
+        // newUser.username = item['姓名']
+        // newUser.timeOfEntry = item['入职日期']
+        // newUser.workNumber = item['工号']
+        // newUser.mobile = item['手机号']
+        // newUser.correctionTime = item['转正日期']
 
-        // const dict = {
-        //   '入职日期': 'timeOfEntry',
-        //   '手机号': 'mobile',
-        //   '姓名': 'username',
-        //   '转正日期': 'correctionTime',
-        //   '工号': 'workNumber'
-        // }
-        // for (const key in item) {
-        //   console.log(key)
-        //   // 姓名 / 工号等等
-        //   newUser[dict[key]] = item[key]
-        // }
+        const dict = {
+          '入职日期': 'timeOfEntry',
+          '手机号': 'mobile',
+          '姓名': 'username',
+          '转正日期': 'correctionTime',
+          '工号': 'workNumber'
+        }
+        for (const zhKey in item) {
+          console.log(zhKey)
+          // zhKey 工号 / 姓名 / 手机号
+          const enKey = dict[zhKey]
+          // dict['姓名'] 将会输出 dict.姓名 => username
+          newUser[enKey] = item[zhKey]
+          // newUser['username'] = item['姓名']
+        }
         return newUser
       })
 

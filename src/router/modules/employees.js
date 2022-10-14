@@ -14,6 +14,11 @@ export default {
       component: () => import('@/views/employees'),
       // meta 配置菜单中的显示(花裤衩独有的封装)
       meta: { title: '员工', icon: 'people' }
+    },
+    {
+      path: 'import',
+      component: () => import('@/views/employees/import'),
+      hidden: true
     }
   ]
 }

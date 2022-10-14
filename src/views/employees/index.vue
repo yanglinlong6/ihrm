@@ -17,7 +17,11 @@
           <el-table-column label="工号" prop="workNumber" sortable="" />
           <el-table-column :formatter="formatEmployment" label="聘用形式" prop="formOfEmployment" sortable="" />
           <el-table-column label="部门" prop="departmentName" sortable="" />
-          <el-table-column label="入职时间" prop="timeOfEntry" sortable="" />
+          <el-table-column label="入职时间" prop="timeOfEntry" sortable="">
+            <template v-slot="{row}">
+              {{ row.timeOfEntry | formatDate }}
+            </template>
+          </el-table-column>
           <el-table-column label="账户状态" prop="enableState" sortable="">
             <!-- 这里想要自定义显示, 作用域插槽获取每一行的数据 -->
             <template v-slot="{row}">

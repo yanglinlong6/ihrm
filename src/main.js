@@ -51,6 +51,16 @@ Vue.directive('fiximg', {
 import MyPlugin from '@/components/MyPlugin'
 Vue.use(MyPlugin)
 
+// 过滤器的定义
+// Vue.filter('名字', 函数)
+// 这里的函数, 接收旧数据, 返回新结果
+const formatDate = (str) => {
+  const date = new Date(str)
+  const strDate = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`
+  return strDate
+}
+Vue.filter('formatDate', formatDate)
+
 new Vue({
   el: '#app',
   router,

@@ -54,12 +54,18 @@ Vue.use(MyPlugin)
 // 过滤器的定义
 // Vue.filter('名字', 函数)
 // 这里的函数, 接收旧数据, 返回新结果
-const formatDate = (str) => {
-  const date = new Date(str)
-  const strDate = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`
-  return strDate
+// 这里是引入一个函数, 注册成过滤器
+// import { formatDate } from '@/filters'
+// Vue.filter('formatDate', formatDate)
+// 下面是如果有大量的函数, 引入一起注册的方法
+// import * as 变量名 from '@/filters' 一次引入所有暴露的变量
+import * as filtersFn from '@/filters'
+console.log('filters函数', filtersFn)
+for (const key in filtersFn) {
+  // console.log('key', key)
+  // console.log('value', filtersFn[key])
+  Vue.filter(key, filtersFn[key])
 }
-Vue.filter('formatDate', formatDate)
 
 new Vue({
   el: '#app',

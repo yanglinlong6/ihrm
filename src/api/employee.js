@@ -7,9 +7,19 @@ export function getEmployeeSimple() {
   })
 }
 
+// 获取员工详细列表
 export function getEmployee(params) {
   return request({
     url: '/sys/user',
     params
+  })
+}
+
+// 批量导入员工
+export function importEmployee(data) {
+  return request({
+    url: '/sys/user/batch',
+    method: 'post',
+    data
   })
 }

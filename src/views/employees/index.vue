@@ -18,7 +18,17 @@
           <el-table-column :formatter="formatEmployment" label="聘用形式" prop="formOfEmployment" sortable="" />
           <el-table-column label="部门" prop="departmentName" sortable="" />
           <el-table-column label="入职时间" prop="timeOfEntry" sortable="" />
-          <el-table-column label="账户状态" prop="enableState" sortable="" />
+          <el-table-column label="账户状态" prop="enableState" sortable="">
+            <!-- 这里想要自定义显示, 作用域插槽获取每一行的数据 -->
+            <template v-slot="{row}">
+              <el-switch
+                v-model="row.enableState"
+                :active-value="1"
+                :inactive-value="2"
+                disabled
+              />
+            </template>
+          </el-table-column>
           <el-table-column label="操作" sortable="" fixed="right" width="280">
             <template>
               <el-button type="text" size="small">查看</el-button>

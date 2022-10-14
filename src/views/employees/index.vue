@@ -141,7 +141,7 @@ export default {
       // ]
       // 每次显示时, 都从这个数组中找到 id 跟 cell 格子数据相同的对象
       // 然后返回 value
-      const obj = EmployeeEnum.hireType.find(item => item.id === cell)
+      const obj = EmployeeEnum.hireType.find(item => +item.id === +cell)
       return obj ? obj.value : '未知'
     }
   }

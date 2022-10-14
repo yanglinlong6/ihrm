@@ -5,7 +5,7 @@
         <span slot="before">共 {{ total }} 条记录</span>
         <template slot="after">
           <el-button size="small" type="warning" @click="$router.push('/employees/import')">导入</el-button>
-          <el-button size="small" type="danger">导出</el-button>
+          <el-button size="small" type="danger" @click="exportExcel">导出</el-button>
           <el-button size="small" type="primary">新增员工</el-button>
         </template>
       </page-tools>
@@ -68,6 +68,8 @@ import { getEmployee } from '@/api/employee'
 // 上面的形式针对具名导出, 如果是匿名导出里面的属性
 // 必须整个导入, 点语法使用才行
 import EmployeeEnum from '@/constant/employees'
+
+import { export_json_to_excel } from '@/vendor/Export2Excel'
 export default {
   // components: {
   //   PageTools
@@ -86,6 +88,21 @@ export default {
     this.getList()
   },
   methods: {
+    async exportExcel() {
+      // 1. 获取所有员工
+      const { rows } = await getEmployee({ page: 1, size: this.total })
+      console.log(rows)
+      // 2. 转换数据
+      // 3. 生成 excel
+      export_json_to_excel({
+        header: ['姓名', '工号', '手机号'],
+        data: [
+          ['小明', 10001, 13243322332],
+          ['小洪', 10002, 13243322333],
+          ['小辉', 10003, 13243322334]
+        ]
+      })
+    },
     async getList() {
       const { total, rows } = await getEmployee(this.pageConfig)
       this.total = total

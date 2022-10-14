@@ -50,6 +50,10 @@
 // 考虑在 main.js 全局注册
 // import PageTools from '@/components/PageTools'
 import { getEmployee } from '@/api/employee'
+// import {hireType} from '@/constant/employees'
+// 上面的形式针对具名导出, 如果是匿名导出里面的属性
+// 必须整个导入, 点语法使用才行
+import EmployeeEnum from '@/constant/employees'
 export default {
   // components: {
   //   PageTools
@@ -115,15 +119,15 @@ export default {
       // }
       // 简化思路: 将数据提取出来, 跟渲染部分分离
       // 在术语上交枚举(将所有可能性列举出来放在一起)
-      const hireType = [
-        // { id: 1, value: '正式工' },
-        { id: 2, value: '非正式' },
-        { id: 3, value: '实习生' },
-        { id: 4, value: '试用期' }
-      ]
+      // const hireType = [
+      //   // { id: 1, value: '正式工' },
+      //   { id: 2, value: '非正式' },
+      //   { id: 3, value: '实习生' },
+      //   { id: 4, value: '试用期' }
+      // ]
       // 每次显示时, 都从这个数组中找到 id 跟 cell 格子数据相同的对象
       // 然后返回 value
-      const obj = hireType.find(item => item.id === cell)
+      const obj = EmployeeEnum.hireType.find(item => item.id === cell)
       return obj ? obj.value : '未知'
     }
   }

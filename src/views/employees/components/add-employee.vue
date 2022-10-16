@@ -1,7 +1,7 @@
 <template>
-  <el-dialog title="新增员工" :visible="isShowDialog">
+  <el-dialog title="新增员工" :visible="isShowDialog" @close="btnCancel">
     <!-- 表单 -->
-    <el-form :model="formData" :rules="rules" label-width="120px">
+    <el-form ref="addForm" :model="formData" :rules="rules" label-width="120px">
       <el-form-item label="姓名" prop="username">
         <el-input v-model="formData.username" style="width:90%" placeholder="请输入姓名" />
       </el-form-item>
@@ -48,8 +48,8 @@
     <template v-slot:footer>
       <el-row type="flex" justify="center">
         <el-col :span="6">
-          <el-button size="small">取消</el-button>
-          <el-button type="primary" size="small">确定</el-button>
+          <el-button size="small" @click="btnCancel">取消</el-button>
+          <el-button type="primary" size="small" @click="btnOK">确定</el-button>
         </el-col>
       </el-row>
 
@@ -111,6 +111,17 @@ export default {
       console.log(component)
       this.formData.departmentName = data.name
       this.isShowTree = false
+    },
+    btnOK() {},
+    btnCancel() {
+      // 1. 清理数据
+      // 2. 清理报错
+      this.$refs.addForm.resetFields()
+      // 3. 关闭弹窗
+      // 可以用 $emit 通知父组件处理传入 pros
+      // 还有一种方法, $parent 可以直接获取父组件的数据
+      // this.isShowDialog = false
+      this.$parent.isShowDialog = false
     }
   }
 }

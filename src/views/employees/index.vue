@@ -70,6 +70,8 @@ import { getEmployee } from '@/api/employee'
 import EmployeeEnum from '@/constant/employees'
 
 import { export_json_to_excel } from '@/vendor/Export2Excel'
+
+import { formatDate } from '@/filters'
 export default {
   // components: {
   //   PageTools
@@ -126,6 +128,9 @@ export default {
             const obj = EmployeeEnum.hireType.find(val => +val.id === +item[enKey])
             // 如果对象找到, 就推其中的 value 否则则是位置
             resArr.push(obj ? obj.value : '未知')
+          } else if (enKey === 'timeOfEntry' || enKey === 'correctionTime') {
+            // 处理日期
+            resArr.push(formatDate(item[enKey]))
           } else {
             // 其他普通数据
             resArr.push(item[enKey])

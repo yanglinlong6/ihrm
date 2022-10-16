@@ -93,14 +93,38 @@ export default {
       const { rows } = await getEmployee({ page: 1, size: this.total })
       console.log(rows)
       // 2. 转换数据
+      const header = []
+      const dict = {
+        '姓名': 'username',
+        '手机号': 'mobile',
+        '工号': 'workNumber'
+      }
+      // 生成表头 ['姓名', '手机号', '工号']
+      for (const zhKey in dict) {
+        header.push(zhKey)
+      }
+
+      const data = rows.map(item => {
+        const resArr = []
+        // resArr.push(item.username)
+        // resArr.push(item.mobile)
+        // resArr.push(item.workNumber)
+        for (const zhKey in dict) {
+          // 姓名 / 工号 / 手机号
+          const enKey = dict[zhKey]
+          // username / workNumber / mobile
+          resArr.push(item[enKey])
+          // resArr.push(item['username'])
+        }
+        return resArr
+      })
+
+      console.log(header)
+      console.log(data)
       // 3. 生成 excel
       export_json_to_excel({
-        header: ['姓名', '工号', '手机号'],
-        data: [
-          ['小明', 10001, 13243322332],
-          ['小洪', 10002, 13243322333],
-          ['小辉', 10003, 13243322334]
-        ]
+        header,
+        data
       })
     },
     async getList() {

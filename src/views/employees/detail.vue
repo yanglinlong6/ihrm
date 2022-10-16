@@ -3,7 +3,7 @@
     <el-card>
       <el-tabs>
         <el-tab-pane label="登录信息">
-          <el-form :model="formData" :rules="rules">
+          <el-form ref="loginForm" :model="formData" :rules="rules">
             <el-form-item label="用户名" prop="username">
               <el-input v-model="formData.username" />
             </el-form-item>
@@ -11,7 +11,7 @@
               <el-input v-model="formData.password" />
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" size="small">更新</el-button>
+              <el-button type="primary" size="small" @click="btnOK">更新</el-button>
             </el-form-item>
           </el-form>
         </el-tab-pane>
@@ -28,6 +28,7 @@
 
 <script>
 import { getUserDetail } from '@/api/user'
+import { saveUserDetailById } from '@/api/employee'
 export default {
   data() {
     return {
@@ -60,6 +61,13 @@ export default {
     this.formData = {
       ...res,
       password: ''
+    }
+  },
+  methods: {
+    async btnOK() {
+      await this.$refs.loginForm.validate()
+      await saveUserDetailById(this.formData)
+      this.$message.success('修改成功')
     }
   }
 }

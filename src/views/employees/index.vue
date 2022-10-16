@@ -119,8 +119,18 @@ export default {
           // 姓名 / 工号 / 手机号
           const enKey = dict[zhKey]
           // username / workNumber / mobile
-          resArr.push(item[enKey])
+          // 对于特殊数据 聘用形式 / 入职日期 / 转正日期
+          if (enKey === 'formOfEmployment') {
+            // 聘用形式处理
+            // 找到对应聘用形式对象
+            const obj = EmployeeEnum.hireType.find(val => +val.id === +item[enKey])
+            // 如果对象找到, 就推其中的 value 否则则是位置
+            resArr.push(obj ? obj.value : '未知')
+          } else {
+            // 其他普通数据
+            resArr.push(item[enKey])
           // resArr.push(item['username'])
+          }
         }
         return resArr
       })

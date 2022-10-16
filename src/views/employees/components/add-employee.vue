@@ -60,6 +60,7 @@
 <script>
 import EmployeeEnum from '@/constant/employees'
 import { getDeptsList } from '@/api/departments'
+import { addEmployee } from '@/api/employee'
 import { listToTree } from '@/utils/'
 
 export default {
@@ -112,7 +113,18 @@ export default {
       this.formData.departmentName = data.name
       this.isShowTree = false
     },
-    btnOK() {},
+    async btnOK() {
+      // 校验表单
+      await this.$refs.addForm.validate()
+      // 发请求(程序员必须能想到的逻辑)
+      await addEmployee(this.formData)
+      // 提示用户
+      this.$message.success('操作成功')
+      // 关闭弹窗
+      this.$parent.isShowDialog = false
+      // 更新页面
+      this.$parent.getList()
+    },
     btnCancel() {
       // 1. 清理数据
       // 2. 清理报错

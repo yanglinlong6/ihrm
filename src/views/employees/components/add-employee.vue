@@ -29,7 +29,7 @@
         <el-input v-model="formData.workNumber" style="width:90%" placeholder="请输入工号" />
       </el-form-item>
       <el-form-item label="部门" prop="departmentName">
-        <el-input v-model="formData.departmentName" style="width:90%" placeholder="请选择部门" @focus="isShowTree = true" />
+        <el-input :value="formData.departmentName" style="width:90%" placeholder="请选择部门" @focus="isShowTree = true" />
         <el-tree
           v-show="isShowTree"
           class="depts"

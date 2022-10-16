@@ -93,16 +93,22 @@ export default {
       const { rows } = await getEmployee({ page: 1, size: this.total })
       console.log(rows)
       // 2. 转换数据
-      const header = []
       const dict = {
-        '姓名': 'username',
         '手机号': 'mobile',
-        '工号': 'workNumber'
+        '姓名': 'username',
+        '入职日期': 'timeOfEntry',
+        '聘用形式': 'formOfEmployment',
+        '转正日期': 'correctionTime',
+        '工号': 'workNumber',
+        '部门': 'departmentName'
       }
       // 生成表头 ['姓名', '手机号', '工号']
-      for (const zhKey in dict) {
-        header.push(zhKey)
-      }
+      // const header = []
+      // for (const zhKey in dict) {
+      //   header.push(zhKey)
+      // }
+      // 有一个函数专门为对象生成以 key 组成的数组
+      const header = Object.keys(dict)
 
       const data = rows.map(item => {
         const resArr = []

@@ -34,13 +34,13 @@
             </template>
           </el-table-column>
           <el-table-column label="操作" sortable="" fixed="right" width="280">
-            <template>
+            <template v-slot="{row}">
               <el-button type="text" size="small">查看</el-button>
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
               <el-button type="text" size="small">角色</el-button>
-              <el-button type="text" size="small">删除</el-button>
+              <el-button type="text" size="small" @click="delEmployee(row.id)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -64,7 +64,7 @@
 // 都得单独进行注册, 如果多个地方使用可以
 // 考虑在 main.js 全局注册
 // import PageTools from '@/components/PageTools'
-import { getEmployee } from '@/api/employee'
+import { getEmployee, delEmployee } from '@/api/employee'
 // import {hireType} from '@/constant/employees'
 // 上面的形式针对具名导出, 如果是匿名导出里面的属性
 // 必须整个导入, 点语法使用才行
@@ -98,6 +98,16 @@ export default {
     this.getList()
   },
   methods: {
+    async delEmployee(id) {
+      // 二次询问
+      await this.$confirm('是否确认删除')
+      // 发送请求
+      await delEmployee(id)
+      // 提醒用户
+      this.$message.success('删除成功')
+      // 更新页面
+      this.getList()
+    },
     async exportExcel() {
       // 1. 获取所有员工
       const { rows } = await getEmployee({ page: 1, size: this.total })

@@ -36,6 +36,8 @@
           :data="deptList"
           :props="{label: 'name'}"
           default-expand-all
+          :expand-on-click-node="false"
+          @node-click="nodeClick"
         />
       </el-form-item>
       <el-form-item label="转正时间" prop="correctionTime">
@@ -101,6 +103,15 @@ export default {
     console.log('部门列表', depts)
     this.deptList = listToTree(depts, '')
     console.log(this.deptList)
+  },
+  methods: {
+    nodeClick(data, node, component) {
+      console.log(data)
+      console.log(node)
+      console.log(component)
+      this.formData.departmentName = data.name
+      this.isShowTree = false
+    }
   }
 }
 </script>

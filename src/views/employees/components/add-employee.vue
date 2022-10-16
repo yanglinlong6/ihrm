@@ -30,6 +30,11 @@
       </el-form-item>
       <el-form-item label="部门" prop="departmentName">
         <el-input v-model="formData.departmentName" style="width:90%" placeholder="请选择部门" />
+        <el-tree
+          :data="deptList"
+          :props="{label: 'name'}"
+          default-expand-all
+        />
       </el-form-item>
       <el-form-item label="转正时间" prop="correctionTime">
         <el-date-picker v-model="formData.correctionTime" style="width:90%" placeholder="请选择转正时间" />
@@ -50,6 +55,8 @@
 
 <script>
 import EmployeeEnum from '@/constant/employees'
+import { getDeptsList } from '@/api/departments'
+import { listToTree } from '@/utils/'
 
 export default {
   props: {
@@ -62,6 +69,7 @@ export default {
     return {
       // EmployeeEnum: EmployeeEnum,
       EmployeeEnum,
+      deptList: [],
       formData: {
         username: '',
         mobile: '',
@@ -84,6 +92,12 @@ export default {
         timeOfEntry: [{ required: true, message: '入职时间', trigger: 'blur' }]
       }
     }
+  },
+  async created() {
+    const { depts } = await getDeptsList()
+    console.log('部门列表', depts)
+    this.deptList = listToTree(depts, '')
+    console.log(this.deptList)
   }
 }
 </script>

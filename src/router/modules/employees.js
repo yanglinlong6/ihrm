@@ -19,6 +19,12 @@ export default {
       path: 'import',
       component: () => import('@/views/employees/import'),
       hidden: true
+    },
+    {
+      // path: 'detail',
+      path: 'detail/:id',
+      component: () => import('@/views/employees/detail'),
+      hidden: true
     }
   ]
 }

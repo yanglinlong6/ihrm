@@ -12,7 +12,18 @@
         <el-date-picker v-model="formData.timeOfEntry" style="width:90%" placeholder="请选择入职时间" />
       </el-form-item>
       <el-form-item label="聘用形式" prop="formOfEmployment">
-        <el-select v-model="formData.formOfEmployment" style="width:90%" placeholder="请选择" />
+        <el-select v-model="formData.formOfEmployment" style="width:90%" placeholder="请选择">
+          <!-- option 如果想要显示的东西跟储存的不一样, 加一个 label 即可
+          label 给用户看的 value 存数据 -->
+          <!-- <el-option label="正式" :value="1" />
+          <el-option label="非正式" :value="2" /> -->
+          <el-option
+            v-for="item in EmployeeEnum.hireType"
+            :key="item.id"
+            :value="item.id"
+            :label="item.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="工号" prop="workNumber">
         <el-input v-model="formData.workNumber" style="width:90%" placeholder="请输入工号" />
@@ -32,11 +43,14 @@
           <el-button type="primary" size="small">确定</el-button>
         </el-col>
       </el-row>
+
     </template>
   </el-dialog>
 </template>
 
 <script>
+import EmployeeEnum from '@/constant/employees'
+
 export default {
   props: {
     isShowDialog: {
@@ -46,6 +60,8 @@ export default {
   },
   data() {
     return {
+      // EmployeeEnum: EmployeeEnum,
+      EmployeeEnum,
       formData: {
         username: '',
         mobile: '',

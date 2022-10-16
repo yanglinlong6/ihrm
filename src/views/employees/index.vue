@@ -6,7 +6,7 @@
         <template slot="after">
           <el-button size="small" type="warning" @click="$router.push('/employees/import')">导入</el-button>
           <el-button size="small" type="danger" @click="exportExcel">导出</el-button>
-          <el-button size="small" type="primary">新增员工</el-button>
+          <el-button size="small" type="primary" @click="isShowDialog = true">新增员工</el-button>
         </template>
       </page-tools>
       <!-- 放置表格和分页 -->
@@ -55,6 +55,7 @@
         </el-row>
       </el-card>
     </div>
+    <AddEmployee :is-show-dialog="isShowDialog" />
   </div>
 </template>
 
@@ -72,10 +73,15 @@ import EmployeeEnum from '@/constant/employees'
 import { export_json_to_excel } from '@/vendor/Export2Excel'
 
 import { formatDate } from '@/filters'
+
+import AddEmployee from './components/add-employee.vue'
 export default {
   // components: {
   //   PageTools
   // }
+  components: {
+    AddEmployee
+  },
   data() {
     return {
       pageConfig: {
@@ -83,7 +89,9 @@ export default {
         size: 5
       },
       list: [],
-      total: 0
+      total: 0,
+      // 弹窗相关
+      isShowDialog: false
     }
   },
   created() {

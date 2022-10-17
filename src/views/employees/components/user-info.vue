@@ -283,17 +283,37 @@
 
 <script>
 import EmployeeEnum from '@/constant/employees'
+import { getUserDetail } from '@/api/user'
+import { saveUserDetailById, getPersonalDetail, updatePersonal } from '@/api/employee'
 export default {
   data() {
     return {
+      userId: this.$route.params.id,
       EmployeeEnum,
       userInfo: {},
       formData: {}
     }
   },
+  created() {
+    this.getUser()
+    this.getPersonal()
+  },
   methods: {
-    saveUser() {},
-    savePersonal() {}
+    async getUser() {
+      this.userInfo = await getUserDetail(this.userId)
+    },
+    async saveUser() {
+      await saveUserDetailById(this.userInfo)
+      this.$message.success('基本信息修改成功')
+    },
+
+    async getPersonal() {
+      this.formData = await getPersonalDetail(this.userId)
+    },
+    async savePersonal() {
+      await updatePersonal(this.formData)
+      this.$message.success('隐私信息修改成功')
+    }
   }
 }
 </script>

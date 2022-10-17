@@ -9,6 +9,10 @@
         class 动态类名控制上传图标
       钩子
         on-remove 删除图片时自动触发, 手动覆盖文件列表
+        on-change 添加图片时自动触发, 手动覆盖文件列表
+      上传相关
+        before-upload 上传前校验
+        http-request 覆盖默认上传行为 (action 就失效, 但是不能删除)
      -->
     <el-upload
       action="#"
@@ -18,6 +22,10 @@
       :class="{disable: fileList.length === 1}"
 
       :on-remove="onRemove"
+      :on-change="onChange"
+
+      :before-upload="beforeUpload"
+      :http-request="httpRequest"
     >
       <i class="el-icon-plus" />
     </el-upload>
@@ -35,10 +43,32 @@ export default {
     }
   },
   methods: {
-    onRemove(file, fileList) {
+    onRemove(file, newFileList) {
       // file 当前正在删除的图片
-      // fileList 是删除后最新的图片数组
-      this.fileList = fileList
+      // newFileList 是删除后最新的图片数组
+      this.fileList = newFileList
+    },
+    onChange(file, newFileList) {
+      this.fileList = newFileList
+    },
+    beforeUpload(file) {
+      console.log('上传前校验')
+      console.log(file)
+      // 大小
+      const maxSize = 1024 * 1024
+      if (file.size > maxSize) {
+        this.$message.error('图片过大')
+        return false
+      }
+      // 格式
+      if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+        this.$message.error('目前只支持 jpg / png 图片')
+        return false
+      }
+    },
+    httpRequest() {
+      // 链接腾讯云
+      console.log('真正上传')
     }
   }
 }

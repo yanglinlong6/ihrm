@@ -84,12 +84,17 @@ export default {
         // onProgress: function(progressData) {
         //   console.log(JSON.stringify(progressData))
         // }
-      }, function(err, data) {
+      }, (err, data) => {
         // 上传结束的回调(成功失败都在这)
         // 如果失败就有 err, 如果成功就没有 err 有 data
         console.log(err || data)
         if (!err) {
           console.log('腾讯云上传成功', data)
+          // 改图片状态
+          this.fileList[0].status = 'success'
+          // 改图片 url
+          this.fileList[0].url = 'http://' + data.Location
+          // 之后需要用到图片地址, 都可以来这里拿
         }
       })
     }

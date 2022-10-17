@@ -58,7 +58,7 @@
         <el-col :span="12">
           <el-form-item label="员工头像">
             <!-- 放置上传图片 -->
-
+            <ImageUpload ref="userInfoPhoto" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -90,6 +90,7 @@
 
         <el-form-item label="员工照片">
           <!-- 放置上传图片 -->
+          <ImageUpload ref="formDataPhoto" />
         </el-form-item>
         <el-form-item label="国家/地区">
           <el-select v-model="formData.nationalArea" class="inputW2">
@@ -301,9 +302,17 @@ export default {
   methods: {
     async getUser() {
       this.userInfo = await getUserDetail(this.userId)
+      // 进入页面获取数据进行渲染, 现在不单单渲染表单, 还要渲染图片上传组件
+      this.$refs.userInfoPhoto.fileList = [
+        {url: this.userInfo.staffPhoto}
+      ]
     },
     async saveUser() {
-      await saveUserDetailById(this.userInfo)
+      // 保存数据时, 现在不单单要保存表单, 还要讲用户的图片放在一起
+      await saveUserDetailById({
+        ...this.userInfo,
+        staffPhoto: this.$refs.userInfoPhoto.fileList[0].url
+      })
       this.$message.success('基本信息修改成功')
     },
 

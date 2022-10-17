@@ -33,6 +33,13 @@
 </template>
 
 <script>
+
+import COS from 'cos-js-sdk-v5'
+const cos = new COS({
+  SecretId: 'AKIDWszA4lvCCNJA8Gsi5FBrKe9WdS5bP61k',
+  SecretKey: 'mIXZMbaNhV3asxLQFrXx6ze9VZPKyKgm'
+})
+
 export default {
   data() {
     return {

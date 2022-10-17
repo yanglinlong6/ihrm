@@ -32,12 +32,12 @@
         </el-form-item>
         <el-form-item label="汇报对象">
           <el-select v-model="formData.reportId" filterable placeholder="请选择" class="inputW">
-            <el-option v-for="item in depts" :key="item.id" :label="item.username" :value="item.id" />
+            <el-option v-for="item in employeeList" :key="item.id" :label="item.username" :value="item.id" />
           </el-select>
         </el-form-item>
         <el-form-item label="HRBP">
           <el-select v-model="formData.hrbp" filterable placeholder="请选择" class="inputW">
-            <el-option v-for="item in depts" :key="item.id" :label="item.username" :value="item.id" class="inputW" />
+            <el-option v-for="item in employeeList" :key="item.id" :label="item.username" :value="item.id" class="inputW" />
           </el-select>
         </el-form-item>
         <el-form-item class="formInfo" label="调整司龄(天)：">
@@ -159,17 +159,34 @@
 </template>
 
 <script>
+import { getJobDetail, updateJob, getEmployeeSimple } from '@/api/employee'
 import EmployeeEnum from '@/constant/employees'
 export default {
   data() {
     return {
+      userId: this.$route.params.id,
       EmployeeEnum,
       formData: {},
-      depts: []
+      employeeList: []
     }
   },
+  created() {
+    // 获取当前员工的岗位信息
+    this.getJob()
+    // 获取公司员工简单列表, 方便选择汇报对象
+    this.getEmployee()
+  },
   methods: {
-    saveJob() {}
+    async getEmployee() {
+      this.employeeList = await getEmployeeSimple()
+    },
+    async getJob() {
+      this.formData = await getJobDetail(this.userId)
+    },
+    async saveJob() {
+      await updateJob(this.formData)
+      this.$message.success('操作成功')
+    }
   }
 }
 </script>

@@ -333,9 +333,25 @@ export default {
 
     async getPersonal() {
       this.formData = await getPersonalDetail(this.userId)
+      // 拿数据时, 如果有头像, 顺便放入上传组件的文件列表数组中
+      if (this.formData.staffPhoto) {
+        this.$refs.formDataPhoto.fileList = [{ url: this.formData.staffPhoto }]
+      }
     },
     async savePersonal() {
-      await updatePersonal(this.formData)
+      const img = this.$refs.formDataPhoto.fileList[0]
+
+      // 发请求前, 判断如果上传还没完成, 报错
+      if (img && img.status !== 'success') {
+        this.$message.error('请等待上传完毕')
+        return
+      }
+
+      await updatePersonal({
+        ...this.formData,
+        // 发请求是根据图片是否存在, 放入 staffPhoto 数据
+        staffPhoto: img ? img.url : ''
+      })
       this.$message.success('隐私信息修改成功')
     }
   }

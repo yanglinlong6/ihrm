@@ -9,6 +9,9 @@
           </el-breadcrumb-item>
           <el-breadcrumb-item>打印</el-breadcrumb-item>
         </el-breadcrumb>
+        <el-row type="flex" justify="end">
+          <el-button size="small" @click="startPrint">开始打印</el-button>
+        </el-row>
         <div v-if="type === 'personal'">
           <h2 class="centInfo">员工信息表</h2>
           <table cellspacing="0" width="100%" class="tableList">
@@ -344,6 +347,10 @@ export default {
   },
   // 组件更新
   methods: {
+    startPrint() {
+      // 浏览器原生api,调起打印
+      window.print()
+    },
     async getPersonalDetail() {
       this.formData = await getPersonalDetail(this.userId) // 获取个人基本信息
     },
@@ -361,4 +368,18 @@ export default {
   padding: 30px 0;
   text-align: right;
 }
+
+@media print {
+  // 一下样式需要在打印时生效
+  #app .sidebar-container {
+    display: none;
+  }
+  #app .main-container {
+    margin-left: 0;
+  }
+  .navbar {
+    display: none;
+  }
+}
+
 </style>

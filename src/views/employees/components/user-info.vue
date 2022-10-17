@@ -302,16 +302,31 @@ export default {
   methods: {
     async getUser() {
       this.userInfo = await getUserDetail(this.userId)
-      // 进入页面获取数据进行渲染, 现在不单单渲染表单, 还要渲染图片上传组件
-      this.$refs.userInfoPhoto.fileList = [
-        {url: this.userInfo.staffPhoto}
-      ]
+      // 进入页面获取数据进行渲染, 现在不单单渲染表单, 还要渲染图片上传组件 (前提是有头像)
+      // 获取员工头像
+      const img = this.userInfo.staffPhoto
+      if (img) {
+        // 如果有, 建立一个新的图片数组
+        const newFileList = [{ url: img }]
+        // 替换掉上传组件图片数组, 显示头像
+        this.$refs.userInfoPhoto.fileList = newFileList
+      }
     },
     async saveUser() {
       // 保存数据时, 现在不单单要保存表单, 还要讲用户的图片放在一起
+      const img = this.$refs.userInfoPhoto.fileList[0]
+
+      // 是否已经上传完毕
+      if (img && img.status !== 'success') {
+        // 有图片, 但是状态不是 success
+        this.$message.error('请等待上传完毕')
+        return
+      }
+
       await saveUserDetailById({
         ...this.userInfo,
-        staffPhoto: this.$refs.userInfoPhoto.fileList[0].url
+        // 有可能用户没有放图片就点击确定, 需要判断
+        staffPhoto: img ? img.url : ''
       })
       this.$message.success('基本信息修改成功')
     },

@@ -73,9 +73,25 @@ export default {
         return false
       }
     },
-    httpRequest() {
+    httpRequest(options) {
       // 链接腾讯云
-      console.log('真正上传')
+      console.log('真正上传', options)
+      cos.putObject({
+        Bucket: 'hr81-1300310660', /* 填入您自己的存储桶，必须字段 */
+        Region: 'ap-nanjing', /* 存储桶所在地域，例如ap-beijing，必须字段 */
+        Key: options.file.name, /* 存储在桶里的对象键（例如1.jpg，a/b/test.txt），必须字段 */
+        Body: options.file /* 必须，上传文件对象，可以是input[type="file"]标签选择本地文件后得到的file对象 */
+        // onProgress: function(progressData) {
+        //   console.log(JSON.stringify(progressData))
+        // }
+      }, function(err, data) {
+        // 上传结束的回调(成功失败都在这)
+        // 如果失败就有 err, 如果成功就没有 err 有 data
+        console.log(err || data)
+        if (!err) {
+          console.log('腾讯云上传成功', data)
+        }
+      })
     }
   }
 }

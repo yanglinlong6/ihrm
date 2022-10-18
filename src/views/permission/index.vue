@@ -2,7 +2,7 @@
   <div class="page-wrapper">
     <PageTools>
       <template #after>
-        <el-button size="small" type="primary">添加权限</el-button>
+        <el-button size="small" type="primary" @click="showAddDialog(1,'0')">添加权限</el-button>
       </template>
     </PageTools>
     <el-card>
@@ -12,9 +12,9 @@
         <el-table-column label="权限描述" prop="description" />
         <el-table-column>
           <template v-slot="{row}">
-            <el-button v-if="row.type === 1" type="text">添加子权限</el-button>
+            <el-button v-if="row.type === 1" type="text" @click="showAddDialog(2, row.id)">添加子权限</el-button>
             <el-button type="text" @click="showEditDialog(row.id)">编辑权限</el-button>
-            <el-button type="text">删除权限</el-button>
+            <el-button type="text" @click="delPerm(row.id)">删除权限</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { getPermissionList, getPermissionDetail, updatePermission } from '@/api/permission'
+import { getPermissionList, getPermissionDetail, updatePermission, addPermission, delPermission } from '@/api/permission'
 import { listToTree } from '@/utils'
 export default {
   data() {
@@ -81,6 +81,16 @@ export default {
     this.getList()
   },
   methods: {
+    async delPerm(id) {
+      // 二次询问
+      await this.$confirm('是否确认删除?')
+      // 发请求
+      await delPermission(id)
+      // 提醒用户
+      this.$message.success('删除成功')
+      // 更新页面
+      this.getList()
+    },
     async getList() {
       const res = await getPermissionList()
       // 由于权限也有树形结构, 需要之前封装的转换函数
@@ -91,11 +101,21 @@ export default {
       this.formData = await getPermissionDetail(id)
       this.isShowDialog = true
     },
+    showAddDialog(type, pid) {
+      this.formData.type = type
+      this.formData.pid = pid
+      this.isShowDialog = true
+    },
     async btnOK() {
       // 校验表单
       await this.$refs.perForm.validate()
       // 发请求
-      await updatePermission(this.formData)
+      if (this.formData.id) {
+        // 编辑
+        await updatePermission(this.formData)
+      } else {
+        await addPermission(this.formData)
+      }
       // 提醒用户
       this.$message.success('操作成功')
       // 更新页面

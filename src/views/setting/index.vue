@@ -26,7 +26,7 @@
                 <!-- 这里是自定义列模板, 每一行都会显示着三个按钮
                 但是怎么获取到当前行数据, 根据组件库文档, 可以通过接收 scope.row 获取
                 其中 scope 可以自己起名, 但是里面自带的 row 是组件库定义的, 其实就是每行数据自己的对象-->
-                <el-button size="mini" type="primary">分配权限</el-button>
+                <el-button size="mini" type="primary" @click="showAssignPerm">分配权限</el-button>
                 <el-button size="mini" type="warning" @click="showEdit(row.id)">编辑</el-button>
                 <!-- <el-button size="mini" type="danger" @click="delRole(scope.row.id)">删除</el-button> -->
                 <el-button size="mini" type="danger" @click="delRole(row.id)">删除</el-button>
@@ -90,14 +90,31 @@
         <el-button size="small" @click="btnCancel">取消</el-button>
       </template>
     </el-dialog>
+
+    <el-dialog title="分配权限" :visible="isAssignPerm">
+      <el-checkbox-group v-model="checkList">
+        <el-checkbox v-for="item in permList" :key="item.id" :label="item.id">
+          {{ item.name }}
+        </el-checkbox>
+      </el-checkbox-group>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { getCompanyInfo, getRoleList, addRole, delRole, getRoleDetail, editRole } from '@/api/setting'
+// 也要引入获取权限列表, 虽然这里是角色列表页,但是要给每个角色设置权限
+import { getPermissionList } from '@/api/permission'
 export default {
   data() {
     return {
+      // 分配权限相关
+      isAssignPerm: false,
+      // 总权限列表
+      permList: [],
+      // 被选中的权限列表
+      checkList: [],
+
       // 分页配置
       pageConfig: {
         page: 1,
@@ -133,9 +150,18 @@ export default {
     // 获取公司信息
     this.getCompany()
     // 获取角色列表
-    this.getList()
+    this.getList(),
+    // 获取权限列表
+    this.getPerm()
   },
   methods: {
+    async getPerm() {
+      this.permList = await getPermissionList()
+      console.log('权限列表', this.permList)
+    },
+    showAssignPerm() {
+      this.isAssignPerm = true
+    },
     async showEdit(id) {
       // 点击时, 根据点击到的id获取详情, 填充到表单上回显
       this.formData = await getRoleDetail(id)

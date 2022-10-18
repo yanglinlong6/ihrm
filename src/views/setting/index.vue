@@ -163,7 +163,9 @@ export default {
     async btnPermOK() {
       // 发请求
       await assignPerm({
+        // 当前角色最新的权限数组(包裹的权限id)
         permIds: this.checkList,
+        // 当前点击角色id
         id: this.id
       })
       // 提示用户

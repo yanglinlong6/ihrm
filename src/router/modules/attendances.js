@@ -1,6 +1,7 @@
 import Layout from '@/layout'
 
 export default {
+  name: 'attendances',
   // 基本路径
   path: '/attendances',
   // 默认显示全局相同布局组件

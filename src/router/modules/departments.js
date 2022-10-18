@@ -1,6 +1,8 @@
 import Layout from '@/layout'
 
 export default {
+  // 这里的name是故意跟权限标志设置成一样
+  name: 'departments',
   // 基本路径
   path: '/departments',
   // 默认显示全局相同布局组件

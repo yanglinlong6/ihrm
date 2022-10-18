@@ -39,7 +39,7 @@
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
-              <el-button type="text" size="small" @click="showAssignRole">角色</el-button>
+              <el-button type="text" size="small" @click="showAssignRole(row.id)">角色</el-button>
               <el-button type="text" size="small" @click="delEmployee(row.id)">删除</el-button>
             </template>
           </el-table-column>
@@ -56,7 +56,7 @@
       </el-card>
     </div>
     <AddEmployee :is-show-dialog="isShowDialog" />
-    <AssignRole :is-show-dialog="isShowAssignRole" />
+    <AssignRole ref="assignRole" :is-show-dialog="isShowAssignRole" />
   </div>
 </template>
 
@@ -66,6 +66,7 @@
 // 考虑在 main.js 全局注册
 // import PageTools from '@/components/PageTools'
 import { getEmployee, delEmployee } from '@/api/employee'
+import { getUserDetail } from '@/api/user'
 // import {hireType} from '@/constant/employees'
 // 上面的形式针对具名导出, 如果是匿名导出里面的属性
 // 必须整个导入, 点语法使用才行
@@ -105,7 +106,11 @@ export default {
     this.getList()
   },
   methods: {
-    showAssignRole() {
+    async showAssignRole(id) {
+      // 之前只是弹出弹窗
+      // 现在弹出前拿到点击这个人的数据让子组件回显
+      const { roleIds } = await getUserDetail(id)
+      this.$refs.assignRole.checkList = roleIds
       // 表格中如果点击了角色按钮, 将弹窗显示出来
       this.isShowAssignRole = true
     },

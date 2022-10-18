@@ -52,3 +52,11 @@ export function editRole(data) {
     data
   })
 }
+
+export function assignPerm(data) {
+  return request({
+    method: 'put',
+    url: '/sys/role/assignPrem',
+    data
+  })
+}

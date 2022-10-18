@@ -26,7 +26,7 @@
                 <!-- 这里是自定义列模板, 每一行都会显示着三个按钮
                 但是怎么获取到当前行数据, 根据组件库文档, 可以通过接收 scope.row 获取
                 其中 scope 可以自己起名, 但是里面自带的 row 是组件库定义的, 其实就是每行数据自己的对象-->
-                <el-button size="mini" type="primary" @click="showAssignPerm">分配权限</el-button>
+                <el-button size="mini" type="primary" @click="showAssignPerm(row.id)">分配权限</el-button>
                 <el-button size="mini" type="warning" @click="showEdit(row.id)">编辑</el-button>
                 <!-- <el-button size="mini" type="danger" @click="delRole(scope.row.id)">删除</el-button> -->
                 <el-button size="mini" type="danger" @click="delRole(row.id)">删除</el-button>
@@ -91,18 +91,22 @@
       </template>
     </el-dialog>
 
-    <el-dialog title="分配权限" :visible="isAssignPerm">
+    <el-dialog title="分配权限" :visible="isAssignPerm" @close="btnPermCancel">
       <el-checkbox-group v-model="checkList">
         <el-checkbox v-for="item in permList" :key="item.id" :label="item.id">
           {{ item.name }}
         </el-checkbox>
       </el-checkbox-group>
+      <template #footer>
+        <el-button size="small" type="primary" @click="btnPermOK">确定</el-button>
+        <el-button size="small" @click="btnPermCancel">取消</el-button>
+      </template>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { getCompanyInfo, getRoleList, addRole, delRole, getRoleDetail, editRole } from '@/api/setting'
+import { getCompanyInfo, getRoleList, addRole, delRole, getRoleDetail, editRole, assignPerm } from '@/api/setting'
 // 也要引入获取权限列表, 虽然这里是角色列表页,但是要给每个角色设置权限
 import { getPermissionList } from '@/api/permission'
 export default {
@@ -114,6 +118,7 @@ export default {
       permList: [],
       // 被选中的权限列表
       checkList: [],
+      id: '',
 
       // 分页配置
       pageConfig: {
@@ -155,11 +160,33 @@ export default {
     this.getPerm()
   },
   methods: {
+    async btnPermOK() {
+      // 发请求
+      await assignPerm({
+        permIds: this.checkList,
+        id: this.id
+      })
+      // 提示用户
+      this.$message.success('操作成功')
+      // 关闭弹窗
+      this.isAssignPerm = false
+    },
+    btnPermCancel() {
+      // 清数据
+      this.checkList = []
+      // 关闭弹窗
+      this.isAssignPerm = false
+    },
     async getPerm() {
       this.permList = await getPermissionList()
       console.log('权限列表', this.permList)
     },
-    showAssignPerm() {
+    async showAssignPerm(id) {
+      // 拿到点击的角色旧权限
+      const { permIds } = await getRoleDetail(id)
+      // 放入多选框绑定的当前选项数组中
+      this.checkList = permIds
+      this.id = id
       this.isAssignPerm = true
     },
     async showEdit(id) {

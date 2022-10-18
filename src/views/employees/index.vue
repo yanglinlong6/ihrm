@@ -39,7 +39,7 @@
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
-              <el-button type="text" size="small">角色</el-button>
+              <el-button type="text" size="small" @click="showAssignRole">角色</el-button>
               <el-button type="text" size="small" @click="delEmployee(row.id)">删除</el-button>
             </template>
           </el-table-column>
@@ -56,6 +56,7 @@
       </el-card>
     </div>
     <AddEmployee :is-show-dialog="isShowDialog" />
+    <AssignRole :is-show-dialog="isShowAssignRole" />
   </div>
 </template>
 
@@ -75,12 +76,15 @@ import { export_json_to_excel } from '@/vendor/Export2Excel'
 import { formatDate } from '@/filters'
 
 import AddEmployee from './components/add-employee.vue'
+import AssignRole from './components/assign-role.vue'
 export default {
   // components: {
   //   PageTools
   // }
   components: {
-    AddEmployee
+    AddEmployee,
+    // 分配角色
+    AssignRole
   },
   data() {
     return {
@@ -91,13 +95,20 @@ export default {
       list: [],
       total: 0,
       // 弹窗相关
-      isShowDialog: false
+      // 新增弹窗
+      isShowDialog: false,
+      // 显示分配角色弹窗
+      isShowAssignRole: false
     }
   },
   created() {
     this.getList()
   },
   methods: {
+    showAssignRole() {
+      // 表格中如果点击了角色按钮, 将弹窗显示出来
+      this.isShowAssignRole = true
+    },
     async delEmployee(id) {
       // 二次询问
       await this.$confirm('是否确认删除')

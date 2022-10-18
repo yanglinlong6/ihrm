@@ -56,7 +56,7 @@
       </el-card>
     </div>
     <AddEmployee :is-show-dialog="isShowDialog" />
-    <AssignRole ref="assignRole" :is-show-dialog="isShowAssignRole" />
+    <AssignRole @closeDialog="isShowAssignRole = false" ref="assignRole" :is-show-dialog="isShowAssignRole" />
   </div>
 </template>
 
@@ -111,6 +111,7 @@ export default {
       // 现在弹出前拿到点击这个人的数据让子组件回显
       const { roleIds } = await getUserDetail(id)
       this.$refs.assignRole.checkList = roleIds
+      this.$refs.assignRole.id = id
       // 表格中如果点击了角色按钮, 将弹窗显示出来
       this.isShowAssignRole = true
     },

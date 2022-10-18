@@ -92,11 +92,23 @@
     </el-dialog>
 
     <el-dialog title="分配权限" :visible="isAssignPerm" @close="btnPermCancel">
+      <!-- 多选框组 -->
       <el-checkbox-group v-model="checkList">
-        <el-checkbox v-for="item in permList" :key="item.id" :label="item.id">
-          {{ item.name }}
-        </el-checkbox>
+
+        <!-- 遍历除大量的权限 -->
+        <!-- 现在我想在这里用树形显示, 然后里面依旧渲染多选框 -->
+        <!-- 中间的遍历由自己写的 v-for 改为 el-tree
+        遍历到的 item 也变为作用域插槽data(el-tree组件封装决定) -->
+        <el-tree :data="permList">
+          <template v-slot="{data}">
+            <el-checkbox :key="data.id" :label="data.id">
+              {{ data.name }}
+            </el-checkbox>
+          </template>
+        </el-tree>
+
       </el-checkbox-group>
+
       <template #footer>
         <el-button size="small" type="primary" @click="btnPermOK">确定</el-button>
         <el-button size="small" @click="btnPermCancel">取消</el-button>
@@ -109,6 +121,7 @@
 import { getCompanyInfo, getRoleList, addRole, delRole, getRoleDetail, editRole, assignPerm } from '@/api/setting'
 // 也要引入获取权限列表, 虽然这里是角色列表页,但是要给每个角色设置权限
 import { getPermissionList } from '@/api/permission'
+import { listToTree } from '@/utils'
 export default {
   data() {
     return {
@@ -180,7 +193,10 @@ export default {
       this.isAssignPerm = false
     },
     async getPerm() {
-      this.permList = await getPermissionList()
+      const res = await getPermissionList()
+      // 权限数据是树形的, 用之前封装的递归转换函数处理
+      // 得出带有 children 嵌套的数据
+      this.permList = listToTree(res, '0')
       console.log('权限列表', this.permList)
     },
     async showAssignPerm(id) {

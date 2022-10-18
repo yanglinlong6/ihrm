@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { getPermissionList, getPermissionDetail } from '@/api/permission'
+import { getPermissionList, getPermissionDetail, updatePermission } from '@/api/permission'
 import { listToTree } from '@/utils'
 export default {
   data() {
@@ -91,8 +91,26 @@ export default {
       this.formData = await getPermissionDetail(id)
       this.isShowDialog = true
     },
-    btnOK() {},
-    btnCancel() {}
+    async btnOK() {
+      // 校验表单
+      await this.$refs.perForm.validate()
+      // 发请求
+      await updatePermission(this.formData)
+      // 提醒用户
+      this.$message.success('操作成功')
+      // 更新页面
+      this.getList()
+      // 关闭弹窗
+      this.isShowDialog = false
+    },
+    btnCancel() {
+      // 清理数据
+      this.formData = {}
+      // 清理报错
+      this.$refs.perForm.resetFields()
+      // 关闭弹窗
+      this.isShowDialog = false
+    }
   }
 }
 </script>

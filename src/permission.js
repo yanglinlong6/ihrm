@@ -18,6 +18,11 @@ router.beforeEach(async(to, from, next) => {
     // 进入任何页面之前, 判断是否已经有用户数据, 如果没有就去获取
     if (!store.getters.name) {
       await store.dispatch('user/getUserInfo')
+      // 获取万用户数据之后, 进行权限的筛选, 生成菜单
+      // 这个操作因为数据需要共享, 有两个地方都要用到
+      // 放在 vuex 里面
+      const menus = store.state.user.userInfo.roles.menus
+      store.dispatch('permission/filterRoutes', menus)
     }
     next()
   }

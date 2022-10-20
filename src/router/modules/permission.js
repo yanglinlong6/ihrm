@@ -1,6 +1,7 @@
 import Layout from '@/layout'
 
 export default {
+  name: 'permission',
   // 基本路径
   path: '/permission',
   // 默认显示全局相同布局组件

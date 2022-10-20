@@ -77,7 +77,7 @@ export const constantRoutes = [
 ]
 
 // 动态路由, 这里是我们另外创建的页面, 只有特定员工(角色)才能进入
-const asyncRoutes = [
+export const asyncRoutes = [
   approvalsRouter,
   departmentsRouter,
   employeesRouter,

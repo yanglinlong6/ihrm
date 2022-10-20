@@ -9,12 +9,28 @@
       <el-option v-for="item in 12" :key="item" :value="item" :label="item+'月'" />
     </el-select>
     <!-- 日历本体 -->
-    <el-calendar v-model="currentDate" />
+    <el-calendar v-model="currentDate">
+      <template #dateCell="{date, data}">
+        <!-- 这里是每个格子渲染模板 -->
+        <!-- 使用作用域插槽可以取得数据进行渲染 -->
+        <!-- date 日期对象 Sat Oct 01 2022 08:00:00 GMT+0800 (中国标准时间) -->
+        <!-- data 是个数据对象, 里面比较重要的是 data.day 是个格式化后的日期字符串 2022-10-30 -->
+        <div class="date-content">
+          <span class="text"> {{ data.day | getDay }}</span>
+          <span v-if="isWeek(date)" class="rest">休</span>
+        </div>
+      </template>
+    </el-calendar>
   </div>
 </template>
 
 <script>
 export default {
+  filters: {
+    getDay(oldVal) {
+      return oldVal.split('-')[2]
+    }
+  },
   data() {
     const currentDate = new Date()
     const currentMonth = currentDate.getMonth() + 1
@@ -38,6 +54,10 @@ export default {
       console.log(str)
       // 2018-6
       this.currentDate = new Date(str)
+    },
+    isWeek(date) {
+      // 返回是否周末布尔值
+      return date.getDay() === 0 || date.getDay() === 6
     }
   }
 }

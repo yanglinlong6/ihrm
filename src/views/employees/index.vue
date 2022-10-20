@@ -6,7 +6,7 @@
         <template slot="after">
           <el-button size="small" type="warning" @click="$router.push('/employees/import')">导入</el-button>
           <el-button size="small" type="danger" @click="exportExcel">导出</el-button>
-          <el-button size="small" type="primary" @click="isShowDialog = true">新增员工</el-button>
+          <el-button v-if="checkPerm('addEmployee')" size="small" type="primary" @click="isShowDialog = true">新增员工</el-button>
         </template>
       </page-tools>
       <!-- 放置表格和分页 -->
@@ -40,7 +40,7 @@
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
               <el-button type="text" size="small" @click="showAssignRole(row.id)">角色</el-button>
-              <el-button type="text" size="small" @click="delEmployee(row.id)">删除</el-button>
+              <el-button v-if="checkPerm('delEmployee')" type="text" size="small" @click="delEmployee(row.id)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -56,7 +56,7 @@
       </el-card>
     </div>
     <AddEmployee :is-show-dialog="isShowDialog" />
-    <AssignRole @closeDialog="isShowAssignRole = false" ref="assignRole" :is-show-dialog="isShowAssignRole" />
+    <AssignRole ref="assignRole" :is-show-dialog="isShowAssignRole" @closeDialog="isShowAssignRole = false" />
   </div>
 </template>
 
@@ -106,6 +106,15 @@ export default {
     this.getList()
   },
   methods: {
+    // checkPerm(name) {
+    //   // const name = 'addEmployee'
+    //   // const name = 'delEmployee'
+    //   // 这个函数可以接收一个按钮的名字
+    //   // 通过个人信息判断能否点击
+    //   const points = this.$store.state.user.userInfo.roles.points
+    //   // 返回这个权限是否存在的布尔值
+    //   return points.indexOf(name) !== -1
+    // },
     async showAssignRole(id) {
       // 之前只是弹出弹窗
       // 现在弹出前拿到点击这个人的数据让子组件回显

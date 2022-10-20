@@ -1,6 +1,7 @@
 import Layout from '@/layout'
 
 export default {
+  name: 'setting',
   // 基本路径
   path: '/setting',
   // 默认显示全局相同布局组件

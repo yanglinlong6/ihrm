@@ -1,9 +1,14 @@
 <template>
   <div>
+    <!-- 年份选择 -->
+    <el-select v-model="currentYear">
+      <el-option v-for="item in yearList" :key="item" :value="item" :label="item+'年'" />
+    </el-select>
     <!-- 月份选择 -->
     <el-select v-model="currentMonth">
       <el-option v-for="item in 12" :key="item" :value="item" :label="item+'月'" />
     </el-select>
+    <!-- 日历本体 -->
     <el-calendar v-model="currentDate" />
   </div>
 </template>
@@ -13,9 +18,18 @@ export default {
   data() {
     const currentDate = new Date()
     const currentMonth = currentDate.getMonth() + 1
+    const currentYear = currentDate.getFullYear()
+    const yearList = []
+    // 假设我想要前面五年+后面五年列表 从2017(当前年份-5)
+    for (let i = 0; i <= 10; i++) {
+      yearList.push(currentYear - 5 + i)
+    }
+
     return {
       currentDate,
-      currentMonth
+      currentMonth,
+      currentYear,
+      yearList
     }
   }
 }

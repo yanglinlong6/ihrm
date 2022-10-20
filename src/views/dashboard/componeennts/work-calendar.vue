@@ -1,6 +1,9 @@
 <template>
   <div>
-    
+    <!-- 月份选择 -->
+    <el-select v-model="currentMonth">
+      <el-option v-for="item in 12" :key="item" :value="item" :label="item+'月'" />
+    </el-select>
     <el-calendar v-model="currentDate" />
   </div>
 </template>
@@ -8,8 +11,11 @@
 <script>
 export default {
   data() {
+    const currentDate = new Date()
+    const currentMonth = currentDate.getMonth() + 1
     return {
-      currentDate: new Date()
+      currentDate,
+      currentMonth
     }
   }
 }

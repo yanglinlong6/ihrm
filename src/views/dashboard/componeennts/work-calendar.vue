@@ -1,11 +1,11 @@
 <template>
   <div>
     <!-- 年份选择 -->
-    <el-select v-model="currentYear">
+    <el-select v-model="currentYear" @change="dateChange">
       <el-option v-for="item in yearList" :key="item" :value="item" :label="item+'年'" />
     </el-select>
     <!-- 月份选择 -->
-    <el-select v-model="currentMonth">
+    <el-select v-model="currentMonth" @change="dateChange">
       <el-option v-for="item in 12" :key="item" :value="item" :label="item+'月'" />
     </el-select>
     <!-- 日历本体 -->
@@ -30,6 +30,14 @@ export default {
       currentMonth,
       currentYear,
       yearList
+    }
+  },
+  methods: {
+    dateChange() {
+      const str = this.currentYear + '-' + this.currentMonth
+      console.log(str)
+      // 2018-6
+      this.currentDate = new Date(str)
     }
   }
 }

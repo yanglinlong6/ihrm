@@ -1,13 +1,61 @@
 <template>
-  <div>此处应有雷达图</div>
+  <div>
+    <div ref="myChart" class="chartBox" />
+  </div>
 </template>
 
 <script>
-export default {
+// 引入库
+import * as echarts from 'echarts'
 
+export default {
+  created() {
+    // 这里数据准备完毕, 页面还没渲染
+  },
+  mounted() {
+    // 挂载完毕, 页面显示了
+    // 初始化实例
+    const myChart = echarts.init(this.$refs.myChart)
+    // 画图
+    myChart.setOption({
+      textStyle: {
+        fontSize: 16,
+        color: '#f00'
+      },
+      radar: {
+        // shape: 'circle',
+        indicator: [
+          { name: 'Sales', max: 6500 },
+          { name: 'Administration', max: 16000 },
+          { name: 'Information Technology', max: 30000 },
+          { name: 'Customer Support', max: 38000 },
+          { name: 'Development', max: 52000 },
+          { name: 'Marketing', max: 25000 }
+        ]
+      },
+      series: [
+        {
+          name: 'Budget vs spending',
+          type: 'radar',
+          data: [
+            {
+              value: [4200, 3000, 20000, 35000, 50000, 18000],
+              name: 'Allocated Budget'
+            },
+            {
+              value: [5000, 14000, 28000, 26000, 42000, 21000],
+              name: 'Actual Spending'
+            }
+          ]
+        }
+      ]
+    })
+  }
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.chartBox {
+  height: 400px;
+}
 </style>

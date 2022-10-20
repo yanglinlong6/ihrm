@@ -31,7 +31,10 @@ export default {
       'sidebar'
     ]),
     routes() {
-      return this.$router.options.routes
+      // 本来菜单是显示路由配置信息列表
+      // return this.$router.options.routes
+      // 现在要靠 vuex 筛选结果显示菜单
+      return this.$store.state.permission.routes
     },
     activeMenu() {
       const route = this.$route

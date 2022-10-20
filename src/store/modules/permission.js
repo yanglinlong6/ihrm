@@ -1,16 +1,21 @@
 // 在这里最基本的操作是筛选权限, 放入state 进行菜单渲染
-import { asyncRoutes } from '@/router'
+import { asyncRoutes, constantRoutes } from '@/router'
 const state = {
-  // 你有权限可以查看的路由
+  // 你有权限可以查看的路由(用来显示菜单)
   routes: []
 }
 const mutations = {
   setRoutes(state, data) {
-    state.routes = data
+    // 得到筛选后的权限路由, 不能单独作为菜单
+    // 还要加上原来所有人都可以看的静态路由
+    state.routes = [
+      ...constantRoutes,
+      ...data
+    ]
   }
 }
 const actions = {
-  filterRoutes(context, menus) {
+  filterRoutes({ commit }, menus) {
     // 路由筛选
     // 原路由列表 asyncRoutes
     // 当前人权限列表 menus
@@ -22,6 +27,9 @@ const actions = {
       return menus.indexOf(item.name) !== -1
     })
     console.log('vuex筛选结果', routes)
+    commit('setRoutes', routes)
+    // 还要将数据返回, 供导航守卫添加路由配置
+    return routes
   }
 }
 

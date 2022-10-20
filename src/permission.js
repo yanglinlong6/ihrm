@@ -22,7 +22,11 @@ router.beforeEach(async(to, from, next) => {
       // 这个操作因为数据需要共享, 有两个地方都要用到
       // 放在 vuex 里面
       const menus = store.state.user.userInfo.roles.menus
-      store.dispatch('permission/filterRoutes', menus)
+      const res = await store.dispatch('permission/filterRoutes', menus)
+      console.log(res)
+      // 筛选完路由, 追加路由配置, 恢复访问(vuex state 只是显示了菜单 router对象不认识页面)
+      // 靠 router.addRoutes(筛选出来的权限路由数组)
+      router.addRoutes(res)
     }
     next()
   }

@@ -26,7 +26,16 @@ router.beforeEach(async(to, from, next) => {
       console.log(res)
       // 筛选完路由, 追加路由配置, 恢复访问(vuex state 只是显示了菜单 router对象不认识页面)
       // 靠 router.addRoutes(筛选出来的权限路由数组)
-      router.addRoutes(res)
+      router.addRoutes([
+        ...res,
+        { path: '*', redirect: '/404', hidden: true }
+      ])
+      // 这里追加路由, 是晚于查找组件的时间
+      // 所以后续追加的路由不会生效,
+      // 解决的办法是, 重新跳转一次当前要去的页面
+      // 就会重新出发一次查找, 第二次查找才会找到
+      console.log(to)
+      next(to.path)
     }
     next()
   }

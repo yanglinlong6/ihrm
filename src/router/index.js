@@ -40,6 +40,7 @@ import socialRouter from './modules/social'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
+// 静态路由 所有角色都应该看见
 export const constantRoutes = [
   {
     path: '/login',
@@ -71,6 +72,12 @@ export const constantRoutes = [
     }]
   },
 
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/404', hidden: true }
+]
+
+// 动态路由, 这里是我们另外创建的页面, 只有特定员工(角色)才能进入
+const asyncRoutes = [
   approvalsRouter,
   departmentsRouter,
   employeesRouter,
@@ -78,10 +85,7 @@ export const constantRoutes = [
   attendancesRouter,
   salarysRouter,
   settingRouter,
-  socialRouter,
-
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  socialRouter
 ]
 
 const createRouter = () => new Router({

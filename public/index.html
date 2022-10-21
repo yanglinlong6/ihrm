@@ -12,6 +12,11 @@
       <strong>We're sorry but <%= webpackConfig.name %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
+    <!-- 这里是打包生成  index.html 的模板 -->
+    <!-- 就在这加载 cdn 第三方库 -->
+    <script src="https://cdn.staticfile.org/vue/2.6.10/vue.min.js"></script>
+    <script src="https://cdn.staticfile.org/xlsx/0.18.4/xlsx.full.min.js"></script>
+    <script src="https://cdn.staticfile.org/element-ui/2.13.2/index.js"></script>
     <!-- built files will be auto injected -->
   </body>
 </html>

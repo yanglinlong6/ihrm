@@ -18,26 +18,7 @@ import '@/permission' // permission control
 import head from '@/assets/common/head.jpg'
 
 // 引入 i18n
-import VueI18n from 'vue-i18n'
-import enLocale from 'element-ui/lib/locale/lang/en'
-import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
-// 注册安装库
-Vue.use(VueI18n)
-// 创建实例
-const i18n = new VueI18n({
-  // 重点, i18n 插件配置内容
-  locale: 'en',
-  messages: {
-    zh: {
-      morning: '早安, 祝你开心每一天',
-      ...zhLocale
-    },
-    en: {
-      morning: 'good morning, have a nice day',
-      ...enLocale
-    }
-  }
-})
+import i18n from '@/lang'
 
 // set ElementUI lang to EN
 // Vue.use(ElementUI, { locale })

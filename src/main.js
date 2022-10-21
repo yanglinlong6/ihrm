@@ -24,6 +24,15 @@ Vue.use(VueI18n)
 // 创建实例
 const i18n = new VueI18n({
   // 重点, i18n 插件配置内容
+  locale: 'en',
+  messages: {
+    zh: {
+      morning: '早安, 祝你开心每一天'
+    },
+    en: {
+      morning: 'good morning, have a nice day'
+    }
+  }
 })
 
 // set ElementUI lang to EN

@@ -57,7 +57,8 @@ export default {
         }
       }
       if (!this.chalk) {
-        const url = `https://unpkg.com/element-ui@${version}/lib/theme-chalk/index.css`
+        const url = `https://cdn.bootcdn.net/ajax/libs/element-ui/${version}/theme-chalk/index.css`
+        // const url = `https://unpkg.com/element-ui@${version}/lib/theme-chalk/index.css`
         await this.getCSSString(url, 'chalk')
       }
       const chalkHandler = getHandler('chalk', 'chalk-style')

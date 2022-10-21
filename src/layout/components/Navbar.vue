@@ -13,6 +13,10 @@
     </div>
 
     <div class="right-menu">
+      <el-select v-model="$i18n.locale" size="small" style="width: 120px;" class="right-menu-item">
+        <el-option value="zh" label="中文" />
+        <el-option value="en" label="English" />
+      </el-select>
       <ThemePicker class="right-menu-item" />
       <ScreenFull class="right-menu-item" />
       <!-- 员工头像下拉菜单 -->

@@ -17,6 +17,15 @@ import '@/permission' // permission control
 
 import head from '@/assets/common/head.jpg'
 
+// 引入 i18n
+import VueI18n from 'vue-i18n'
+// 注册安装库
+Vue.use(VueI18n)
+// 创建实例
+const i18n = new VueI18n({
+  // 重点, i18n 插件配置内容
+})
+
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
@@ -95,5 +104,6 @@ new Vue({
   el: '#app',
   router,
   store,
+  i18n,
   render: h => h(App)
 })

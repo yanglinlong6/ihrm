@@ -13,6 +13,7 @@
     </div>
 
     <div class="right-menu">
+      <ThemePicker class="right-menu-item" />
       <ScreenFull class="right-menu-item" />
       <!-- 员工头像下拉菜单 -->
       <el-dropdown class="avatar-container" trigger="click">

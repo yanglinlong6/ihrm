@@ -57,6 +57,13 @@ module.exports = {
       alias: {
         '@': resolve('src')
       }
+    },
+    // 在脚手架 webpack 配置中, 指定某些包由外部加载, 无需打包
+    externals: {
+      // key: value 的方式指定, 本地引入的报名: 全局环境下替代的变量
+      vue: 'Vue',
+      'element-ui': 'ELEMENT',
+      xlsx: 'XLSX'
     }
   },
   chainWebpack(config) {

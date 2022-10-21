@@ -6,7 +6,13 @@
 
 <script>
 // 引入库
-import * as echarts from 'echarts'
+// import * as echarts from 'echarts'
+// 改为按需引入
+import * as echarts from 'echarts/core'
+import { RadarChart } from 'echarts/charts'
+import { CanvasRenderer } from 'echarts/renderers'
+
+echarts.use([RadarChart, CanvasRenderer])
 
 export default {
   created() {

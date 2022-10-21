@@ -4,7 +4,7 @@ import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import locale from 'element-ui/lib/locale/lang/en' // lang i18n
+// import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 
 import '@/styles/index.scss' // global css
 
@@ -19,6 +19,8 @@ import head from '@/assets/common/head.jpg'
 
 // 引入 i18n
 import VueI18n from 'vue-i18n'
+import enLocale from 'element-ui/lib/locale/lang/en'
+import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
 // 注册安装库
 Vue.use(VueI18n)
 // 创建实例
@@ -27,18 +29,24 @@ const i18n = new VueI18n({
   locale: 'en',
   messages: {
     zh: {
-      morning: '早安, 祝你开心每一天'
+      morning: '早安, 祝你开心每一天',
+      ...zhLocale
     },
     en: {
-      morning: 'good morning, have a nice day'
+      morning: 'good morning, have a nice day',
+      ...enLocale
     }
   }
 })
 
 // set ElementUI lang to EN
-Vue.use(ElementUI, { locale })
+// Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
+
+Vue.use(ElementUI, {
+  i18n: (key, value) => i18n.t(key, value)
+})
 
 Vue.config.productionTip = false
 

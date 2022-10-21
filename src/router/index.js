@@ -90,7 +90,10 @@ export const asyncRoutes = [
 ]
 
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
+  // 清理url中 #
+  mode: 'history', // require service support
+  // url 添加前缀
+  base: 'hr',
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })

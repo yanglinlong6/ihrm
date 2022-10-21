@@ -10,10 +10,14 @@ export default new VueI18n({
   locale: 'en',
   messages: {
     zh: {
+      btnOK: '确定',
+      btnCancel: '取消',
       morning: '早安, 祝你开心每一天',
       ...zhLocale
     },
     en: {
+      btnOK: 'OK',
+      btnCancel: 'Cancel',
       morning: 'good morning, have a nice day',
       ...enLocale
     }

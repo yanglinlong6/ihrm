@@ -14,8 +14,8 @@
 
     <div class="right-menu">
       <el-select v-model="$i18n.locale" size="small" style="width: 120px;" class="right-menu-item">
-        <el-option value="zh" label="中文" />
-        <el-option value="en" label="English" />
+        <el-option value="zh" label="中文" :disabled="$i18n.locale === 'zh'" />
+        <el-option value="en" label="English" :disabled="$i18n.locale === 'en'" />
       </el-select>
       <ThemePicker class="right-menu-item" />
       <ScreenFull class="right-menu-item" />
